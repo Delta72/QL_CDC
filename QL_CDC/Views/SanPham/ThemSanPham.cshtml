@@ -1,0 +1,79 @@
+﻿@model QL_CDC.Models.SANPHAM
+
+@{
+    ViewData["Title"] = "ThemSanPham";
+    Layout = "~/Views/Shared/_SecondLayout.cshtml";
+}
+
+<h1>ThemSanPham</h1>
+
+<h4>SANPHAM</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ThemSanPham">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SP_MSSP" class="control-label"></label>
+                <input asp-for="SP_MSSP" class="form-control" />
+                <span asp-validation-for="SP_MSSP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LOAI_MALOAI" class="control-label"></label>
+                <select asp-for="LOAI_MALOAI" class ="form-control" asp-items="ViewBag.LOAI_MALOAI"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SV_MSSV" class="control-label"></label>
+                <select asp-for="SV_MSSV" class ="form-control" asp-items="ViewBag.SV_MSSV"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SP_TENSP" class="control-label"></label>
+                <input asp-for="SP_TENSP" class="form-control" />
+                <span asp-validation-for="SP_TENSP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SP_NGAYDANG" class="control-label"></label>
+                <input asp-for="SP_NGAYDANG" class="form-control" />
+                <span asp-validation-for="SP_NGAYDANG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SP_THOIGIANSUDUNG" class="control-label"></label>
+                <input asp-for="SP_THOIGIANSUDUNG" class="form-control" />
+                <span asp-validation-for="SP_THOIGIANSUDUNG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SP_GIA" class="control-label"></label>
+                <input asp-for="SP_GIA" class="form-control" />
+                <span asp-validation-for="SP_GIA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SP_CONLAI" class="control-label"></label>
+                <input asp-for="SP_CONLAI" class="form-control" />
+                <span asp-validation-for="SP_CONLAI" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SP_DABAN" class="control-label"></label>
+                <input asp-for="SP_DABAN" class="form-control" />
+                <span asp-validation-for="SP_DABAN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SP_HANGSX" class="control-label"></label>
+                <input asp-for="SP_HANGSX" class="form-control" />
+                <span asp-validation-for="SP_HANGSX" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SP_MOTA" class="control-label"></label>
+                <input asp-for="SP_MOTA" class="form-control" />
+                <span asp-validation-for="SP_MOTA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

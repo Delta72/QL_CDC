@@ -8,7 +8,6 @@
     <!-- Favicon -->
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
     </environment>
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -23,6 +22,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/template/css/style.css" rel="stylesheet">
+    <script src="~/js/DieuKhien.js"></script>
 </head>
 
 <body>
@@ -47,10 +47,7 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="@Url.Action("GioHang","Home")" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
+                @await Html.PartialAsync("../GioHang/_GioHangPartial.cshtml")
             </div>
         </div>
     </div>
@@ -175,7 +172,7 @@
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
-                <img class="img-fluid" src="img/payments.png" alt="">
+                <img class="img-fluid" src="/template/img/payments.png" alt="">
             </div>
         </div>
     </div>
