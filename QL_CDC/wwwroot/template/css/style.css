@@ -9668,3 +9668,15 @@ a.text-dark:hover, a.text-dark:focus {
         border: 1px solid #0f893b;
         cursor: pointer;
     }
+
+.dkch {
+    font-size: 12px;
+}
+
+.tablech tr:hover > td {
+    color: #0f893b;
+}
+
+.tablech i{
+    margin-left: 5vw;
+}
