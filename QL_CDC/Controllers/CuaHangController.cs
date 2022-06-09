@@ -12,5 +12,6 @@ namespace QL_CDC.Controllers
         {
             return View();
         }
+
     }
 }

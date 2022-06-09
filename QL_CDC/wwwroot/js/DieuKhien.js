@@ -11,6 +11,9 @@ function hiensanphamtronggio() {
     })
 }
 
+// format gia tien
+
+
 // Ready
 $(document).ready(function () {
     hiensanphamtronggio();
