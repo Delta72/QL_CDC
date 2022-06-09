@@ -9,7 +9,7 @@ namespace QL_CDC.Models
     {
         public string masp { get; set; }
         public string tensp { get; set; }
-        public string anhsp { get; set; }
+        public List<string> anhsp { get; set; }
         public double giagocsp { get; set; }
         public double dongiasp { get; set; }
         public int thoigiansp { get; set; }
