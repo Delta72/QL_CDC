@@ -9,14 +9,14 @@ namespace QL_CDC.Models
     {
         public LOAISANPHAM()
         {
-            SANPHAM = new HashSet<SANPHAM>();
+            SANPHAMs = new HashSet<SANPHAM>();
         }
 
         public int LOAI_MALOAI { get; set; }
+        public int MH_MAMH { get; set; }
         public string LOAI_TENLOAI { get; set; }
-        public int? MH_MAMH { get; set; }
 
         public virtual LOAIMATHANG MH_MAMHNavigation { get; set; }
-        public virtual ICollection<SANPHAM> SANPHAM { get; set; }
+        public virtual ICollection<SANPHAM> SANPHAMs { get; set; }
     }
 }

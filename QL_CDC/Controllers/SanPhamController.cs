@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QL_CDC.Models;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -14,11 +16,12 @@ namespace QL_CDC.Controllers
 {
     public class SanPhamController : Controller
     {
+        
         QL_CDCContext db = new QL_CDCContext();
         public IActionResult Index()
         {
             List<SanPhamModel> SP = new List<SanPhamModel>();
-            foreach(var x in db.SANPHAM)
+            foreach(var x in db.SANPHAMs)
             {
                 SanPhamModel s = new SanPhamModel();
                 s.masp = x.SP_MSSP;
@@ -28,7 +31,8 @@ namespace QL_CDC.Controllers
                 s.thoigiansp = (int)x.SP_THOIGIANSUDUNG;
                 s.danhgiasp = LayDanhGiaSanPham(x.SP_MSSP);
                 s.soluongsp = (int)x.SP_CONLAI;
-                s.anhsp = db.HINHANH.Where(a => a.SP_MSSP == x.SP_MSSP).Select(a => a.HA_LINK).ToList();
+                s.anhsp = db.HINHANHs.Where(a => a.SP_MSSP == x.SP_MSSP).Select(a => a.HA_LINK).ToList();
+                SP.Add(s);
             }
             return View(SP);
         }
@@ -36,8 +40,12 @@ namespace QL_CDC.Controllers
         public double TinhDonGiaSanPham(string mssp)
         {
             double dongia = 0;
-            double phantram = db.KHUYENMAI.Where(a => a.SP_MSSP == mssp).Select(a => (double)a.KM_PHANTRAM).FirstOrDefault();
-            double giagoc = db.SANPHAM.Where(a => a.SP_MSSP == mssp).Select(a => (double)a.SP_GIA).FirstOrDefault();
+            double phantram = 1;
+            if(db.KHUYENMAIs.Where(a => a.SP_MSSP == mssp).FirstOrDefault() != null)
+            {
+                phantram = (double)db.KHUYENMAIs.Where(a => a.SP_MSSP == mssp).Select(a => a.KM_PHANTRAM).FirstOrDefault();
+            }
+            double giagoc = (double)db.SANPHAMs.Where(a => a.SP_MSSP == mssp).Select(a => a.SP_GIA).FirstOrDefault();
             dongia = giagoc * phantram;
             return dongia;
         }
@@ -45,7 +53,7 @@ namespace QL_CDC.Controllers
         public double LayDanhGiaSanPham(string mssv)
         {
             double danhgia = 0;
-            List<DANHGIASANPHAM> D = db.DANHGIASANPHAM.Where(a => a.SV_MSSV == mssv).ToList();
+            List<DANHGIASANPHAM> D = db.DANHGIASANPHAMs.Where(a => a.SV_MSSV == mssv).ToList();
             if(D.Count > 0)
             {
                 foreach (var x in D)
@@ -61,7 +69,7 @@ namespace QL_CDC.Controllers
         public IActionResult ThemSanPham()
         {
             List<SelectListModel> L = new List<SelectListModel>();
-            foreach(var x in db.LOAIMATHANG)
+            foreach(var x in db.LOAIMATHANGs)
             {
                 SelectListModel s = new SelectListModel();
                 s.id = x.MH_MAMH;
@@ -76,7 +84,7 @@ namespace QL_CDC.Controllers
         {
             int n; int.TryParse(id, out n);
             List<SelectListModel> L = new List<SelectListModel>();
-            foreach(var i in db.LOAISANPHAM)
+            foreach(var i in db.LOAISANPHAMs)
             {
                 if(i.MH_MAMH == n)
                 {
@@ -106,7 +114,7 @@ namespace QL_CDC.Controllers
                 SP_HANGSX = model.nsx,
                 SP_MOTA = model.mota,
             };
-            db.SANPHAM.Add(SP);
+            db.SANPHAMs.Add(SP);
             db.SaveChanges();
 
             // Them hinh anh san pham
@@ -118,7 +126,7 @@ namespace QL_CDC.Controllers
                     SP_MSSP = SP.SP_MSSP,
                     HA_LINK = UploadImage(i),
                 };
-                db.HINHANH.Add(HA);
+                db.HINHANHs.Add(HA);
                 db.SaveChanges();
             }
             return Json("");
@@ -128,11 +136,12 @@ namespace QL_CDC.Controllers
         {
             var filename = Guid.NewGuid().ToString() + img.FileName;
             var filepath = Directory.GetCurrentDirectory() + "\\wwwroot\\sanpham\\" + filename;
-            using (var stream = new FileStream(filepath, FileMode.Create))
-            {
-                img.CopyTo(stream);
-            }
-            return filepath;
+            using var image = SixLabors.ImageSharp.Image.Load(img.OpenReadStream());
+            image.Mutate(x => x.Resize(500, 500));
+            image.Save(filepath);
+            var report = "\\sanpham\\" + filename;
+            return report;
         }
+
     }
 }

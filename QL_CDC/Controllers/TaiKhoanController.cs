@@ -31,7 +31,7 @@ namespace QL_CDC.Controllers
         public IActionResult TaskDangNhap(string tk, string mk)
         {
             var dn = false;
-            SINHVIEN sv = db.SINHVIEN.Where(a => a.SV_MSSV == tk).FirstOrDefault();
+            SINHVIEN sv = db.SINHVIENs.Where(a => a.SV_MSSV == tk).FirstOrDefault();
             if(sv == null)
             {
 
@@ -48,7 +48,6 @@ namespace QL_CDC.Controllers
                 {
                     role = "sv";
                 }
-                int gh = db.GIOHANG.Count(a => a.SV_MSSV == tk);
                 var claims = new[] { 
                     new Claim(ClaimTypes.Name, sv.SV_TENHIENTHI), 
                     new Claim(ClaimTypes.NameIdentifier, sv.SV_MSSV),
@@ -78,5 +77,5 @@ namespace QL_CDC.Controllers
         {
             return View();
         }
-    }
+    }       
 }

@@ -17,26 +17,27 @@ namespace QL_CDC.Models
         {
         }
 
-        public virtual DbSet<BINHLUANSANPHAM> BINHLUANSANPHAM { get; set; }
-        public virtual DbSet<CHAT> CHAT { get; set; }
-        public virtual DbSet<CHITIETHOADON> CHITIETHOADON { get; set; }
-        public virtual DbSet<DANHGIASANPHAM> DANHGIASANPHAM { get; set; }
-        public virtual DbSet<GIOHANG> GIOHANG { get; set; }
-        public virtual DbSet<HINHANH> HINHANH { get; set; }
-        public virtual DbSet<HOADONMUA> HOADONMUA { get; set; }
-        public virtual DbSet<KHUYENMAI> KHUYENMAI { get; set; }
-        public virtual DbSet<LOAIMATHANG> LOAIMATHANG { get; set; }
-        public virtual DbSet<LOAISANPHAM> LOAISANPHAM { get; set; }
-        public virtual DbSet<SANPHAM> SANPHAM { get; set; }
-        public virtual DbSet<SINHVIEN> SINHVIEN { get; set; }
-        public virtual DbSet<TINHTRANGHOADON> TINHTRANGHOADON { get; set; }
+        public virtual DbSet<BINHLUANSANPHAM> BINHLUANSANPHAMs { get; set; }
+        public virtual DbSet<CHAT> CHATs { get; set; }
+        public virtual DbSet<CHITIETHOADON> CHITIETHOADONs { get; set; }
+        public virtual DbSet<DANHGIASANPHAM> DANHGIASANPHAMs { get; set; }
+        public virtual DbSet<GIOHANG> GIOHANGs { get; set; }
+        public virtual DbSet<HINHANH> HINHANHs { get; set; }
+        public virtual DbSet<HOADONMUA> HOADONMUAs { get; set; }
+        public virtual DbSet<KHUYENMAI> KHUYENMAIs { get; set; }
+        public virtual DbSet<LOAIMATHANG> LOAIMATHANGs { get; set; }
+        public virtual DbSet<LOAISANPHAM> LOAISANPHAMs { get; set; }
+        public virtual DbSet<SANPHAM> SANPHAMs { get; set; }
+        public virtual DbSet<SINHVIEN> SINHVIENs { get; set; }
+        public virtual DbSet<TINHTRANGHOADON> TINHTRANGHOADONs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            string str = "Server=DESKTOP-EHEN21F\\SQLEXPRESS;Database=QL_CDC;Trusted_Connection=True;MultipleActiveResultSets=true;";
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-EHEN21F\\SQLEXPRESS;database=QL_CDC;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(str);
             }
         }
 
@@ -46,8 +47,9 @@ namespace QL_CDC.Models
 
             modelBuilder.Entity<BINHLUANSANPHAM>(entity =>
             {
-                entity.HasKey(e => new { e.SV_MSSV, e.SP_MSSP })
-                    .HasName("PK_BINHLUAN");
+                entity.HasKey(e => new { e.SV_MSSV, e.SP_MSSP });
+
+                entity.ToTable("BINHLUANSANPHAM");
 
                 entity.HasIndex(e => e.SV_MSSV, "BINHLUAN_FKA");
 
@@ -64,13 +66,13 @@ namespace QL_CDC.Models
                 entity.Property(e => e.BL_NOIDUNG).HasMaxLength(2000);
 
                 entity.HasOne(d => d.SP_MSSPNavigation)
-                    .WithMany(p => p.BINHLUANSANPHAM)
+                    .WithMany(p => p.BINHLUANSANPHAMs)
                     .HasForeignKey(d => d.SP_MSSP)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BINHLUAN_VE_SANPHAM");
 
                 entity.HasOne(d => d.SV_MSSVNavigation)
-                    .WithMany(p => p.BINHLUANSANPHAM)
+                    .WithMany(p => p.BINHLUANSANPHAMs)
                     .HasForeignKey(d => d.SV_MSSV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BINHLUAN_CUA3_SINHVIEN");
@@ -79,6 +81,8 @@ namespace QL_CDC.Models
             modelBuilder.Entity<CHAT>(entity =>
             {
                 entity.HasKey(e => new { e.SV_MSSV_1, e.SV_MSSV_2, e.CHAT_THOIGIAN });
+
+                entity.ToTable("CHAT");
 
                 entity.HasIndex(e => e.SV_MSSV_2, "CHAT2_FK");
 
@@ -99,13 +103,13 @@ namespace QL_CDC.Models
                 entity.Property(e => e.CHAT_NOIDUNG).HasMaxLength(4000);
 
                 entity.HasOne(d => d.SV_MSSV_1Navigation)
-                    .WithMany(p => p.CHATSV_MSSV_1Navigation)
+                    .WithMany(p => p.CHATSV_MSSV_1Navigations)
                     .HasForeignKey(d => d.SV_MSSV_1)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CHAT_CHAT_SINHVIEN");
 
                 entity.HasOne(d => d.SV_MSSV_2Navigation)
-                    .WithMany(p => p.CHATSV_MSSV_2Navigation)
+                    .WithMany(p => p.CHATSV_MSSV_2Navigations)
                     .HasForeignKey(d => d.SV_MSSV_2)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CHAT_CHAT2_SINHVIEN");
@@ -114,6 +118,8 @@ namespace QL_CDC.Models
             modelBuilder.Entity<CHITIETHOADON>(entity =>
             {
                 entity.HasKey(e => new { e.SP_MSSP, e.HD_MSHD });
+
+                entity.ToTable("CHITIETHOADON");
 
                 entity.HasIndex(e => e.HD_MSHD, "CHITIETHOADON2_FK");
 
@@ -130,13 +136,13 @@ namespace QL_CDC.Models
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.HD_MSHDNavigation)
-                    .WithMany(p => p.CHITIETHOADON)
+                    .WithMany(p => p.CHITIETHOADONs)
                     .HasForeignKey(d => d.HD_MSHD)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CHITIETH_CHITIETHO_HOADONMU");
 
                 entity.HasOne(d => d.SP_MSSPNavigation)
-                    .WithMany(p => p.CHITIETHOADON)
+                    .WithMany(p => p.CHITIETHOADONs)
                     .HasForeignKey(d => d.SP_MSSP)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CHITIETH_CTHD_SANPHAM");
@@ -144,8 +150,9 @@ namespace QL_CDC.Models
 
             modelBuilder.Entity<DANHGIASANPHAM>(entity =>
             {
-                entity.HasKey(e => new { e.SV_MSSV, e.SP_MSSP })
-                    .HasName("PK_DANHGIA");
+                entity.HasKey(e => new { e.SV_MSSV, e.SP_MSSP });
+
+                entity.ToTable("DANHGIASANPHAM");
 
                 entity.HasIndex(e => e.SV_MSSV, "DANHGIA_FK");
 
@@ -160,21 +167,23 @@ namespace QL_CDC.Models
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.SP_MSSPNavigation)
-                    .WithMany(p => p.DANHGIASANPHAM)
+                    .WithMany(p => p.DANHGIASANPHAMs)
                     .HasForeignKey(d => d.SP_MSSP)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DANHGIA_DANHGIA2_SANPHAM");
+                    .HasConstraintName("FK_DANHGIAS_DANHGIA2_SANPHAM");
 
                 entity.HasOne(d => d.SV_MSSVNavigation)
-                    .WithMany(p => p.DANHGIASANPHAM)
+                    .WithMany(p => p.DANHGIASANPHAMs)
                     .HasForeignKey(d => d.SV_MSSV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DANHGIA_DANHGIA_SINHVIEN");
+                    .HasConstraintName("FK_DANHGIAS_DANHGIA_SINHVIEN");
             });
 
             modelBuilder.Entity<GIOHANG>(entity =>
             {
                 entity.HasKey(e => new { e.SV_MSSV, e.SP_MSSP });
+
+                entity.ToTable("GIOHANG");
 
                 entity.HasIndex(e => e.SV_MSSV, "GIOHANG_FK");
 
@@ -189,13 +198,13 @@ namespace QL_CDC.Models
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.SP_MSSPNavigation)
-                    .WithMany(p => p.GIOHANG)
+                    .WithMany(p => p.GIOHANGs)
                     .HasForeignKey(d => d.SP_MSSP)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GIOHANG_CO_SANPHAM");
 
                 entity.HasOne(d => d.SV_MSSVNavigation)
-                    .WithMany(p => p.GIOHANG)
+                    .WithMany(p => p.GIOHANGs)
                     .HasForeignKey(d => d.SV_MSSV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GIOHANG_GIOHANG_SINHVIEN");
@@ -205,6 +214,8 @@ namespace QL_CDC.Models
             {
                 entity.HasKey(e => e.HA_MSHA)
                     .IsClustered(false);
+
+                entity.ToTable("HINHANH");
 
                 entity.HasIndex(e => e.SP_MSSP, "CO_FK");
 
@@ -220,27 +231,23 @@ namespace QL_CDC.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.SP_MSSP)
-                    .IsRequired()
                     .HasMaxLength(36)
                     .IsUnicode(false)
                     .IsFixedLength(true);
 
                 entity.Property(e => e.SV_MSSV)
-                    .IsRequired()
                     .HasMaxLength(8)
                     .IsUnicode(false)
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.SP_MSSPNavigation)
-                    .WithMany(p => p.HINHANH)
+                    .WithMany(p => p.HINHANHs)
                     .HasForeignKey(d => d.SP_MSSP)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_HINHANH_CUA_SANPHAM");
 
                 entity.HasOne(d => d.SV_MSSVNavigation)
-                    .WithMany(p => p.HINHANH)
+                    .WithMany(p => p.HINHANHs)
                     .HasForeignKey(d => d.SV_MSSV)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_HINHANH_CUA4_SINHVIEN");
             });
 
@@ -248,6 +255,8 @@ namespace QL_CDC.Models
             {
                 entity.HasKey(e => e.HD_MSHD)
                     .IsClustered(false);
+
+                entity.ToTable("HOADONMUA");
 
                 entity.HasIndex(e => e.TT_MSTT, "CO2_FK");
 
@@ -267,13 +276,13 @@ namespace QL_CDC.Models
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.SV_MSSVNavigation)
-                    .WithMany(p => p.HOADONMUA)
+                    .WithMany(p => p.HOADONMUAs)
                     .HasForeignKey(d => d.SV_MSSV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_HOADONMU_CUA2_SINHVIEN");
 
                 entity.HasOne(d => d.TT_MSTTNavigation)
-                    .WithMany(p => p.HOADONMUA)
+                    .WithMany(p => p.HOADONMUAs)
                     .HasForeignKey(d => d.TT_MSTT)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_HOADONMU_CO2_TINHTRAN");
@@ -283,6 +292,8 @@ namespace QL_CDC.Models
             {
                 entity.HasKey(e => e.KM_MSKM)
                     .IsClustered(false);
+
+                entity.ToTable("KHUYENMAI");
 
                 entity.HasIndex(e => e.SP_MSSP, "DUOC_FK");
 
@@ -298,7 +309,7 @@ namespace QL_CDC.Models
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.SP_MSSPNavigation)
-                    .WithMany(p => p.KHUYENMAI)
+                    .WithMany(p => p.KHUYENMAIs)
                     .HasForeignKey(d => d.SP_MSSP)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_KHUYENMA_DUOC_SANPHAM");
@@ -306,7 +317,10 @@ namespace QL_CDC.Models
 
             modelBuilder.Entity<LOAIMATHANG>(entity =>
             {
-                entity.HasKey(e => e.MH_MAMH);
+                entity.HasKey(e => e.MH_MAMH)
+                    .IsClustered(false);
+
+                entity.ToTable("LOAIMATHANG");
 
                 entity.Property(e => e.MH_MAMH).ValueGeneratedNever();
 
@@ -318,20 +332,27 @@ namespace QL_CDC.Models
                 entity.HasKey(e => e.LOAI_MALOAI)
                     .IsClustered(false);
 
+                entity.ToTable("LOAISANPHAM");
+
+                entity.HasIndex(e => e.MH_MAMH, "THUOC2_FK");
+
                 entity.Property(e => e.LOAI_MALOAI).ValueGeneratedNever();
 
                 entity.Property(e => e.LOAI_TENLOAI).HasMaxLength(200);
 
                 entity.HasOne(d => d.MH_MAMHNavigation)
-                    .WithMany(p => p.LOAISANPHAM)
+                    .WithMany(p => p.LOAISANPHAMs)
                     .HasForeignKey(d => d.MH_MAMH)
-                    .HasConstraintName("FK_LOAISANPHAM_LOAIMATHANG");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LOAISANP_THUOC2_LOAIMATH");
             });
 
             modelBuilder.Entity<SANPHAM>(entity =>
             {
                 entity.HasKey(e => e.SP_MSSP)
                     .IsClustered(false);
+
+                entity.ToTable("SANPHAM");
 
                 entity.HasIndex(e => e.SV_MSSV, "BAN_FK");
 
@@ -355,13 +376,13 @@ namespace QL_CDC.Models
                     .IsFixedLength(true);
 
                 entity.HasOne(d => d.LOAI_MALOAINavigation)
-                    .WithMany(p => p.SANPHAM)
+                    .WithMany(p => p.SANPHAMs)
                     .HasForeignKey(d => d.LOAI_MALOAI)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SANPHAM_THUOC_LOAISANP");
 
                 entity.HasOne(d => d.SV_MSSVNavigation)
-                    .WithMany(p => p.SANPHAM)
+                    .WithMany(p => p.SANPHAMs)
                     .HasForeignKey(d => d.SV_MSSV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SANPHAM_DO_SINHVIEN");
@@ -371,6 +392,8 @@ namespace QL_CDC.Models
             {
                 entity.HasKey(e => e.SV_MSSV)
                     .IsClustered(false);
+
+                entity.ToTable("SINHVIEN");
 
                 entity.Property(e => e.SV_MSSV)
                     .HasMaxLength(8)
@@ -404,6 +427,8 @@ namespace QL_CDC.Models
             {
                 entity.HasKey(e => e.TT_MSTT)
                     .IsClustered(false);
+
+                entity.ToTable("TINHTRANGHOADON");
 
                 entity.Property(e => e.TT_MSTT).ValueGeneratedNever();
 

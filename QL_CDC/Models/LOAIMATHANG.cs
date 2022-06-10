@@ -9,12 +9,12 @@ namespace QL_CDC.Models
     {
         public LOAIMATHANG()
         {
-            LOAISANPHAM = new HashSet<LOAISANPHAM>();
+            LOAISANPHAMs = new HashSet<LOAISANPHAM>();
         }
 
         public int MH_MAMH { get; set; }
         public string MH_TENMH { get; set; }
 
-        public virtual ICollection<LOAISANPHAM> LOAISANPHAM { get; set; }
+        public virtual ICollection<LOAISANPHAM> LOAISANPHAMs { get; set; }
     }
 }

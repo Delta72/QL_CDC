@@ -17,7 +17,7 @@ namespace QL_CDC.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 string tk = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                sp = db.GIOHANG.Count(a => a.SV_MSSV == tk);
+                sp = db.GIOHANGs.Count(a => a.SV_MSSV == tk);
             }
             return Json(sp);
         }
@@ -27,4 +27,5 @@ namespace QL_CDC.Controllers
             return View();
         }
     }
+
 }

@@ -9,14 +9,14 @@ namespace QL_CDC.Models
     {
         public SINHVIEN()
         {
-            BINHLUANSANPHAM = new HashSet<BINHLUANSANPHAM>();
-            CHATSV_MSSV_1Navigation = new HashSet<CHAT>();
-            CHATSV_MSSV_2Navigation = new HashSet<CHAT>();
-            DANHGIASANPHAM = new HashSet<DANHGIASANPHAM>();
-            GIOHANG = new HashSet<GIOHANG>();
-            HINHANH = new HashSet<HINHANH>();
-            HOADONMUA = new HashSet<HOADONMUA>();
-            SANPHAM = new HashSet<SANPHAM>();
+            BINHLUANSANPHAMs = new HashSet<BINHLUANSANPHAM>();
+            CHATSV_MSSV_1Navigations = new HashSet<CHAT>();
+            CHATSV_MSSV_2Navigations = new HashSet<CHAT>();
+            DANHGIASANPHAMs = new HashSet<DANHGIASANPHAM>();
+            GIOHANGs = new HashSet<GIOHANG>();
+            HINHANHs = new HashSet<HINHANH>();
+            HOADONMUAs = new HashSet<HOADONMUA>();
+            SANPHAMs = new HashSet<SANPHAM>();
         }
 
         public string SV_MSSV { get; set; }
@@ -31,13 +31,13 @@ namespace QL_CDC.Models
         public bool? SV_TINHTRANG { get; set; }
         public bool? SV_ADMIN { get; set; }
 
-        public virtual ICollection<BINHLUANSANPHAM> BINHLUANSANPHAM { get; set; }
-        public virtual ICollection<CHAT> CHATSV_MSSV_1Navigation { get; set; }
-        public virtual ICollection<CHAT> CHATSV_MSSV_2Navigation { get; set; }
-        public virtual ICollection<DANHGIASANPHAM> DANHGIASANPHAM { get; set; }
-        public virtual ICollection<GIOHANG> GIOHANG { get; set; }
-        public virtual ICollection<HINHANH> HINHANH { get; set; }
-        public virtual ICollection<HOADONMUA> HOADONMUA { get; set; }
-        public virtual ICollection<SANPHAM> SANPHAM { get; set; }
+        public virtual ICollection<BINHLUANSANPHAM> BINHLUANSANPHAMs { get; set; }
+        public virtual ICollection<CHAT> CHATSV_MSSV_1Navigations { get; set; }
+        public virtual ICollection<CHAT> CHATSV_MSSV_2Navigations { get; set; }
+        public virtual ICollection<DANHGIASANPHAM> DANHGIASANPHAMs { get; set; }
+        public virtual ICollection<GIOHANG> GIOHANGs { get; set; }
+        public virtual ICollection<HINHANH> HINHANHs { get; set; }
+        public virtual ICollection<HOADONMUA> HOADONMUAs { get; set; }
+        public virtual ICollection<SANPHAM> SANPHAMs { get; set; }
     }
 }

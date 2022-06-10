@@ -9,12 +9,12 @@ namespace QL_CDC.Models
     {
         public SANPHAM()
         {
-            BINHLUANSANPHAM = new HashSet<BINHLUANSANPHAM>();
-            CHITIETHOADON = new HashSet<CHITIETHOADON>();
-            DANHGIASANPHAM = new HashSet<DANHGIASANPHAM>();
-            GIOHANG = new HashSet<GIOHANG>();
-            HINHANH = new HashSet<HINHANH>();
-            KHUYENMAI = new HashSet<KHUYENMAI>();
+            BINHLUANSANPHAMs = new HashSet<BINHLUANSANPHAM>();
+            CHITIETHOADONs = new HashSet<CHITIETHOADON>();
+            DANHGIASANPHAMs = new HashSet<DANHGIASANPHAM>();
+            GIOHANGs = new HashSet<GIOHANG>();
+            HINHANHs = new HashSet<HINHANH>();
+            KHUYENMAIs = new HashSet<KHUYENMAI>();
         }
 
         public string SP_MSSP { get; set; }
@@ -31,11 +31,11 @@ namespace QL_CDC.Models
 
         public virtual LOAISANPHAM LOAI_MALOAINavigation { get; set; }
         public virtual SINHVIEN SV_MSSVNavigation { get; set; }
-        public virtual ICollection<BINHLUANSANPHAM> BINHLUANSANPHAM { get; set; }
-        public virtual ICollection<CHITIETHOADON> CHITIETHOADON { get; set; }
-        public virtual ICollection<DANHGIASANPHAM> DANHGIASANPHAM { get; set; }
-        public virtual ICollection<GIOHANG> GIOHANG { get; set; }
-        public virtual ICollection<HINHANH> HINHANH { get; set; }
-        public virtual ICollection<KHUYENMAI> KHUYENMAI { get; set; }
+        public virtual ICollection<BINHLUANSANPHAM> BINHLUANSANPHAMs { get; set; }
+        public virtual ICollection<CHITIETHOADON> CHITIETHOADONs { get; set; }
+        public virtual ICollection<DANHGIASANPHAM> DANHGIASANPHAMs { get; set; }
+        public virtual ICollection<GIOHANG> GIOHANGs { get; set; }
+        public virtual ICollection<HINHANH> HINHANHs { get; set; }
+        public virtual ICollection<KHUYENMAI> KHUYENMAIs { get; set; }
     }
 }
