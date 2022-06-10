@@ -142,6 +142,40 @@ namespace QL_CDC.Controllers
             var report = "\\sanpham\\" + filename;
             return report;
         }
+        
+        [AllowAnonymous]
+        public IActionResult ChiTietSanPham_A(string id)
+        {
+            SANPHAM s = db.SANPHAMs.Where(a => a.SP_MSSP == id).FirstOrDefault();
+            string mssv = db.SINHVIENs.Where(a => a.SV_MSSV == s.SV_MSSV).Select(a => a.SV_MSSV).FirstOrDefault();
+            string nguoidang = db.SINHVIENs.Where(a => a.SV_MSSV == s.SV_MSSV).Select(a => a.SV_TENHIENTHI).FirstOrDefault();
+            DateTime d = (DateTime)s.SP_NGAYDANG;
+            SanPhamModel SP = new SanPhamModel()
+            {
+                masp = s.SP_MSSP,
+                tensp = s.SP_TENSP,
+                danhgiasp = LayDanhGiaSanPham(mssv),
+                giagocsp = (double)s.SP_GIA,
+                dongiasp = TinhDonGiaSanPham(id),
+                nguoidangsp = nguoidang,
+                ngaydangsp = d.ToString("dd/MM/yyyy"),
+                thoigiansp = (int)s.SP_THOIGIANSUDUNG,
+                soluongsp = (int)s.SP_CONLAI,
+                motasp = s.SP_MOTA,
+            };
 
+            List<string> tempstrlist = new List<string>();
+            foreach(var i in db.HINHANHs)
+            {
+                if(i.SP_MSSP == id)
+                {
+                    string name = i.HA_LINK;
+                    tempstrlist.Add(name);
+                }
+            }
+            SP.anhsp = tempstrlist;
+
+            return View(SP);
+        }
     }
 }
