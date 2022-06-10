@@ -15,5 +15,8 @@ namespace QL_CDC.Models
         public int thoigiansp { get; set; }
         public double danhgiasp { get; set; }
         public int soluongsp { get; set; }
+        public string nguoidangsp { get; set; }
+        public string ngaydangsp { get; set; }
+        public string motasp { get; set; }
     }
 }

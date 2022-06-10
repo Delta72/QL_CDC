@@ -9,7 +9,7 @@ namespace QL_CDC.Models
     {
         public HOADONMUA()
         {
-            CHITIETHOADON = new HashSet<CHITIETHOADON>();
+            CHITIETHOADONs = new HashSet<CHITIETHOADON>();
         }
 
         public string HD_MSHD { get; set; }
@@ -20,6 +20,6 @@ namespace QL_CDC.Models
 
         public virtual SINHVIEN SV_MSSVNavigation { get; set; }
         public virtual TINHTRANGHOADON TT_MSTTNavigation { get; set; }
-        public virtual ICollection<CHITIETHOADON> CHITIETHOADON { get; set; }
+        public virtual ICollection<CHITIETHOADON> CHITIETHOADONs { get; set; }
     }
 }

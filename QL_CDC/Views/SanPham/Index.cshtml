@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SanPhamModel>
 @{
     ViewData["Title"] = "Home Page";
-    Layout = "_MainLayout";
+    Layout = "_ThirdLayout";
 }
 
 <!-- Products Start -->
@@ -9,32 +9,45 @@
     <div class="text-center mb-4">
         <h2 class="section-title px-5"><span class="px-2">Sản phẩm</span></h2>
     </div>
-    @foreach (var item in Model)
-    {
-        <div class="row px-xl-5 pb-3">
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                <div class="card product-item mb-4 sanpham">
-                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <div style="width: 100%; display: flex;">
-                            <div class="tagthoigian">1 tháng</div>
-                            <div class="tagthoigian">1 <i class="fa fa-star" style="color: white;"></i></div>
+    <div class="row px-xl-5 pb-3">
+        @if (Model.Count() > 0)
+        {
+            @foreach (var item in Model)
+            {
+                string dongia = string.Format("{0:#,##0.########}", item.dongiasp);
+                string giagoc = string.Format("{0:#,##0.########}", item.giagocsp);
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item mb-4 sanpham">
+                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <div style="width: 100%; display: flex;">
+                                <div class="tagthoigian">@item.thoigiansp tháng</div>
+                                <div class="tagthoigian">@item.danhgiasp <i class="fa fa-star" style="color: white;"></i></div>
+                            </div>
+                            <img class="img-fluid w-100" src="@item.anhsp[0]" alt="">
                         </div>
-                        <img class="img-fluid w-100" src="/template/img/product-1.jpg" alt="">
-                    </div>
-                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                        <h6 class="text-truncate mb-3">Tên sản phẩm</h6>
-                        <div class="d-flex justify-content-center">
-                            <h6>$ Giá khuyến mãi</h6><h6 class="text-muted ml-2"><del>$ Giá gốc </del></h6>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">@item.tensp </h6>
+                            <div class="d-flex justify-content-center">
+                                @if (item.giagocsp == item.dongiasp)
+                                {
+                                    <h6>@dongia Đ</h6>
+                                }
+                                else
+                                {
+                                    <h6>@dongia Đ</h6><h6 class="text-muted ml-2"><del>@giagoc Đ</del></h6>
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href="" class="btn btn-sm text-dark p-0 tuychon"><i class="fas fa-eye text-primary mr-1"></i>Chi tiết</a>
-                        <a href="" class="btn btn-sm text-dark p-0 tuychon"><i class="fas fa-shopping-cart text-primary mr-1"></i>Thêm vào giỏ</a>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a asp-action="ChiTietSanPham_A" asp-controller="SanPham" asp-route-id="@item.masp" class="btn btn-sm text-dark p-0 tuychon"><i class="fas fa-eye text-primary mr-1"></i>Chi tiết</a>
+                            <a href="" class="btn btn-sm text-dark p-0 tuychon"><i class="fas fa-shopping-cart text-primary mr-1"></i>Thêm vào giỏ</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    }
+            }
+        }
+    </div>
+    
 </div>
 <!-- Products End -->
 s

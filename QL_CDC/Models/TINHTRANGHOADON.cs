@@ -9,12 +9,12 @@ namespace QL_CDC.Models
     {
         public TINHTRANGHOADON()
         {
-            HOADONMUA = new HashSet<HOADONMUA>();
+            HOADONMUAs = new HashSet<HOADONMUA>();
         }
 
         public int TT_MSTT { get; set; }
         public string TT_TRANGTHAI { get; set; }
 
-        public virtual ICollection<HOADONMUA> HOADONMUA { get; set; }
+        public virtual ICollection<HOADONMUA> HOADONMUAs { get; set; }
     }
 }
