@@ -28,6 +28,7 @@ namespace QL_CDC.Models
         public string msnguoidang { get; set; }
         public string ngaydangsp { get; set; }
         public string motasp { get; set; }
+        public string makm { get; set; }
         public List<NhanXetModel> nhanxetsp { get; set; }
     }
 }
