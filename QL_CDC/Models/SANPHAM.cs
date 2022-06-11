@@ -9,9 +9,7 @@ namespace QL_CDC.Models
     {
         public SANPHAM()
         {
-            BINHLUANSANPHAMs = new HashSet<BINHLUANSANPHAM>();
             CHITIETHOADONs = new HashSet<CHITIETHOADON>();
-            DANHGIASANPHAMs = new HashSet<DANHGIASANPHAM>();
             GIOHANGs = new HashSet<GIOHANG>();
             HINHANHs = new HashSet<HINHANH>();
             KHUYENMAIs = new HashSet<KHUYENMAI>();
@@ -31,9 +29,7 @@ namespace QL_CDC.Models
 
         public virtual LOAISANPHAM LOAI_MALOAINavigation { get; set; }
         public virtual SINHVIEN SV_MSSVNavigation { get; set; }
-        public virtual ICollection<BINHLUANSANPHAM> BINHLUANSANPHAMs { get; set; }
         public virtual ICollection<CHITIETHOADON> CHITIETHOADONs { get; set; }
-        public virtual ICollection<DANHGIASANPHAM> DANHGIASANPHAMs { get; set; }
         public virtual ICollection<GIOHANG> GIOHANGs { get; set; }
         public virtual ICollection<HINHANH> HINHANHs { get; set; }
         public virtual ICollection<KHUYENMAI> KHUYENMAIs { get; set; }

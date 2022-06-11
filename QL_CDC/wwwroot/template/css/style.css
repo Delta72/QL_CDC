@@ -10624,3 +10624,70 @@ a.text-dark:hover, a.text-dark:focus {
 .danhgiasao i:hover{
     cursor: pointer;
 }
+
+#alertdiv {
+    position: fixed;
+    top: 30%;
+    left: 35%;
+    border: 1px solid #1efc0a;
+    height: 40%;
+    width: 30%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    text-align: center;
+}
+    #alertdiv p {
+        text-align: center;
+        color: #0f893b;
+        font-size: 40px;
+        margin-top: 5vh;
+    }
+
+    #alertdiv i {
+        font-size: 8vw;
+        margin-top: 2vh;
+        color: #1efc0a;
+    }
+
+@media (max-width: 600px){
+    #alertdiv {
+        position: fixed;
+        top: 35%;
+        left: 20%;
+        border: 1px solid #1efc0a;
+        height: 30%;
+        width: 60%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        text-align: center;
+    }
+
+        #alertdiv p {
+            margin-top: 5vh;
+            text-align: center;
+            color: #0f893b;
+            font-size: 5vw;
+        }
+
+        #alertdiv i {
+            font-size: 18vw;
+            margin-top: 2vh;
+            color: #1efc0a;
+        }
+}
+
+.thongtin p{
+    font-size: 1.5vw;
+}
+
+@media (max-width: 900px){
+    .thongtin p {
+        font-size: 2.5vw;
+    }
+}
+
+@media (max-width: 500px) {
+    .thongtin p {
+        font-size: 3vw;
+    }
+}

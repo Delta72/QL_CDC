@@ -17,27 +17,25 @@ namespace QL_CDC.Models
         {
         }
 
-        public virtual DbSet<BINHLUANSANPHAM> BINHLUANSANPHAMs { get; set; }
         public virtual DbSet<CHAT> CHATs { get; set; }
         public virtual DbSet<CHITIETHOADON> CHITIETHOADONs { get; set; }
-        public virtual DbSet<DANHGIASANPHAM> DANHGIASANPHAMs { get; set; }
         public virtual DbSet<GIOHANG> GIOHANGs { get; set; }
         public virtual DbSet<HINHANH> HINHANHs { get; set; }
         public virtual DbSet<HOADONMUA> HOADONMUAs { get; set; }
         public virtual DbSet<KHUYENMAI> KHUYENMAIs { get; set; }
         public virtual DbSet<LOAIMATHANG> LOAIMATHANGs { get; set; }
         public virtual DbSet<LOAISANPHAM> LOAISANPHAMs { get; set; }
+        public virtual DbSet<NHANXETNGUOIBAN> NHANXETNGUOIBANs { get; set; }
         public virtual DbSet<SANPHAM> SANPHAMs { get; set; }
         public virtual DbSet<SINHVIEN> SINHVIENs { get; set; }
         public virtual DbSet<TINHTRANGHOADON> TINHTRANGHOADONs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string str = "Server=DESKTOP-EHEN21F\\SQLEXPRESS;Database=QL_CDC;Trusted_Connection=True;MultipleActiveResultSets=true;";
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(str);
+                optionsBuilder.UseSqlServer("Server=DESKTOP-EHEN21F\\SQLEXPRESS;database=QL_CDC;Trusted_Connection=True;MultipleActiveResultSets=true;");
             }
         }
 
@@ -45,55 +43,22 @@ namespace QL_CDC.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<BINHLUANSANPHAM>(entity =>
-            {
-                entity.HasKey(e => new { e.SV_MSSV, e.SP_MSSP });
-
-                entity.ToTable("BINHLUANSANPHAM");
-
-                entity.HasIndex(e => e.SV_MSSV, "BINHLUAN_FKA");
-
-                entity.Property(e => e.SV_MSSV)
-                    .HasMaxLength(8)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.SP_MSSP)
-                    .HasMaxLength(36)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.BL_NOIDUNG).HasMaxLength(2000);
-
-                entity.HasOne(d => d.SP_MSSPNavigation)
-                    .WithMany(p => p.BINHLUANSANPHAMs)
-                    .HasForeignKey(d => d.SP_MSSP)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BINHLUAN_VE_SANPHAM");
-
-                entity.HasOne(d => d.SV_MSSVNavigation)
-                    .WithMany(p => p.BINHLUANSANPHAMs)
-                    .HasForeignKey(d => d.SV_MSSV)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BINHLUAN_CUA3_SINHVIEN");
-            });
-
             modelBuilder.Entity<CHAT>(entity =>
             {
-                entity.HasKey(e => new { e.SV_MSSV_1, e.SV_MSSV_2, e.CHAT_THOIGIAN });
+                entity.HasKey(e => new { e.SV_MSSV_G, e.SV_MSSV_N, e.CHAT_THOIGIAN });
 
                 entity.ToTable("CHAT");
 
-                entity.HasIndex(e => e.SV_MSSV_2, "CHAT2_FK");
+                entity.HasIndex(e => e.SV_MSSV_N, "CHAT2_FK");
 
-                entity.HasIndex(e => e.SV_MSSV_1, "CHAT_FK");
+                entity.HasIndex(e => e.SV_MSSV_G, "CHAT_FK");
 
-                entity.Property(e => e.SV_MSSV_1)
+                entity.Property(e => e.SV_MSSV_G)
                     .HasMaxLength(8)
                     .IsUnicode(false)
                     .IsFixedLength(true);
 
-                entity.Property(e => e.SV_MSSV_2)
+                entity.Property(e => e.SV_MSSV_N)
                     .HasMaxLength(8)
                     .IsUnicode(false)
                     .IsFixedLength(true);
@@ -102,15 +67,15 @@ namespace QL_CDC.Models
 
                 entity.Property(e => e.CHAT_NOIDUNG).HasMaxLength(4000);
 
-                entity.HasOne(d => d.SV_MSSV_1Navigation)
-                    .WithMany(p => p.CHATSV_MSSV_1Navigations)
-                    .HasForeignKey(d => d.SV_MSSV_1)
+                entity.HasOne(d => d.SV_MSSV_GNavigation)
+                    .WithMany(p => p.CHATSV_MSSV_GNavigations)
+                    .HasForeignKey(d => d.SV_MSSV_G)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CHAT_CHAT_SINHVIEN");
 
-                entity.HasOne(d => d.SV_MSSV_2Navigation)
-                    .WithMany(p => p.CHATSV_MSSV_2Navigations)
-                    .HasForeignKey(d => d.SV_MSSV_2)
+                entity.HasOne(d => d.SV_MSSV_NNavigation)
+                    .WithMany(p => p.CHATSV_MSSV_NNavigations)
+                    .HasForeignKey(d => d.SV_MSSV_N)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CHAT_CHAT2_SINHVIEN");
             });
@@ -146,37 +111,6 @@ namespace QL_CDC.Models
                     .HasForeignKey(d => d.SP_MSSP)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CHITIETH_CTHD_SANPHAM");
-            });
-
-            modelBuilder.Entity<DANHGIASANPHAM>(entity =>
-            {
-                entity.HasKey(e => new { e.SV_MSSV, e.SP_MSSP });
-
-                entity.ToTable("DANHGIASANPHAM");
-
-                entity.HasIndex(e => e.SV_MSSV, "DANHGIA_FK");
-
-                entity.Property(e => e.SV_MSSV)
-                    .HasMaxLength(8)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.SP_MSSP)
-                    .HasMaxLength(36)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
-
-                entity.HasOne(d => d.SP_MSSPNavigation)
-                    .WithMany(p => p.DANHGIASANPHAMs)
-                    .HasForeignKey(d => d.SP_MSSP)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DANHGIAS_DANHGIA2_SANPHAM");
-
-                entity.HasOne(d => d.SV_MSSVNavigation)
-                    .WithMany(p => p.DANHGIASANPHAMs)
-                    .HasForeignKey(d => d.SV_MSSV)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DANHGIAS_DANHGIA_SINHVIEN");
             });
 
             modelBuilder.Entity<GIOHANG>(entity =>
@@ -345,6 +279,43 @@ namespace QL_CDC.Models
                     .HasForeignKey(d => d.MH_MAMH)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_LOAISANP_THUOC2_LOAIMATH");
+            });
+
+            modelBuilder.Entity<NHANXETNGUOIBAN>(entity =>
+            {
+                entity.HasKey(e => new { e.SV_MSSV_M, e.SV_MSSV_B });
+
+                entity.ToTable("NHANXETNGUOIBAN");
+
+                entity.HasIndex(e => e.SV_MSSV_M, "BINHLUAN_FKA");
+
+                entity.HasIndex(e => e.SV_MSSV_B, "NHANXETNGUOIBAN2_FK");
+
+                entity.Property(e => e.SV_MSSV_M)
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.SV_MSSV_B)
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.NX_NGAY).HasColumnType("datetime");
+
+                entity.Property(e => e.NX_NOIDUNG).HasMaxLength(2000);
+
+                entity.HasOne(d => d.SV_MSSV_BNavigation)
+                    .WithMany(p => p.NHANXETNGUOIBANSV_MSSV_BNavigations)
+                    .HasForeignKey(d => d.SV_MSSV_B)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_NHANXETN_NHANXETNG_SINHVIEN");
+
+                entity.HasOne(d => d.SV_MSSV_MNavigation)
+                    .WithMany(p => p.NHANXETNGUOIBANSV_MSSV_MNavigations)
+                    .HasForeignKey(d => d.SV_MSSV_M)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_NHANXETN_CUA3_SINHVIEN");
             });
 
             modelBuilder.Entity<SANPHAM>(entity =>

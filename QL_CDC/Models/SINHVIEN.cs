@@ -9,13 +9,13 @@ namespace QL_CDC.Models
     {
         public SINHVIEN()
         {
-            BINHLUANSANPHAMs = new HashSet<BINHLUANSANPHAM>();
-            CHATSV_MSSV_1Navigations = new HashSet<CHAT>();
-            CHATSV_MSSV_2Navigations = new HashSet<CHAT>();
-            DANHGIASANPHAMs = new HashSet<DANHGIASANPHAM>();
+            CHATSV_MSSV_GNavigations = new HashSet<CHAT>();
+            CHATSV_MSSV_NNavigations = new HashSet<CHAT>();
             GIOHANGs = new HashSet<GIOHANG>();
             HINHANHs = new HashSet<HINHANH>();
             HOADONMUAs = new HashSet<HOADONMUA>();
+            NHANXETNGUOIBANSV_MSSV_BNavigations = new HashSet<NHANXETNGUOIBAN>();
+            NHANXETNGUOIBANSV_MSSV_MNavigations = new HashSet<NHANXETNGUOIBAN>();
             SANPHAMs = new HashSet<SANPHAM>();
         }
 
@@ -31,13 +31,13 @@ namespace QL_CDC.Models
         public bool? SV_TINHTRANG { get; set; }
         public bool? SV_ADMIN { get; set; }
 
-        public virtual ICollection<BINHLUANSANPHAM> BINHLUANSANPHAMs { get; set; }
-        public virtual ICollection<CHAT> CHATSV_MSSV_1Navigations { get; set; }
-        public virtual ICollection<CHAT> CHATSV_MSSV_2Navigations { get; set; }
-        public virtual ICollection<DANHGIASANPHAM> DANHGIASANPHAMs { get; set; }
+        public virtual ICollection<CHAT> CHATSV_MSSV_GNavigations { get; set; }
+        public virtual ICollection<CHAT> CHATSV_MSSV_NNavigations { get; set; }
         public virtual ICollection<GIOHANG> GIOHANGs { get; set; }
         public virtual ICollection<HINHANH> HINHANHs { get; set; }
         public virtual ICollection<HOADONMUA> HOADONMUAs { get; set; }
+        public virtual ICollection<NHANXETNGUOIBAN> NHANXETNGUOIBANSV_MSSV_BNavigations { get; set; }
+        public virtual ICollection<NHANXETNGUOIBAN> NHANXETNGUOIBANSV_MSSV_MNavigations { get; set; }
         public virtual ICollection<SANPHAM> SANPHAMs { get; set; }
     }
 }
