@@ -5,6 +5,15 @@ using System.Threading.Tasks;
 
 namespace QL_CDC.Models
 {
+    public class NhanXetModel
+    {
+        public string mssv_m { get; set; }
+        public string mssv_b { get; set; }
+        public string img { get; set; }
+        public string noidung { get; set; }
+        public int danhgia { get; set; }
+        public string ngay { get; set; }
+    }
     public class SanPhamModel
     {
         public string masp { get; set; }
@@ -16,7 +25,9 @@ namespace QL_CDC.Models
         public double danhgiasp { get; set; }
         public int soluongsp { get; set; }
         public string nguoidangsp { get; set; }
+        public string msnguoidang { get; set; }
         public string ngaydangsp { get; set; }
         public string motasp { get; set; }
+        public List<NhanXetModel> nhanxetsp { get; set; }
     }
 }

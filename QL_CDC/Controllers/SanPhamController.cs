@@ -16,7 +16,7 @@ namespace QL_CDC.Controllers
 {
     public class SanPhamController : Controller
     {
-        
+        #region
         QL_CDCContext db = new QL_CDCContext();
         public IActionResult Index()
         {
@@ -53,12 +53,12 @@ namespace QL_CDC.Controllers
         public double LayDanhGiaSanPham(string mssv)
         {
             double danhgia = 0;
-            List<DANHGIASANPHAM> D = db.DANHGIASANPHAMs.Where(a => a.SV_MSSV == mssv).ToList();
+            List<NHANXETNGUOIBAN> D = db.NHANXETNGUOIBANs.Where(a => a.SV_MSSV_B == mssv).ToList();
             if(D.Count > 0)
             {
                 foreach (var x in D)
                 {
-                    danhgia += (double)x.DG_GIATRI;
+                    danhgia += (double)x.NX_GIATRI;
                 }
                 danhgia /= D.Count;
             }
@@ -154,6 +154,7 @@ namespace QL_CDC.Controllers
             {
                 masp = s.SP_MSSP,
                 tensp = s.SP_TENSP,
+                msnguoidang = mssv,
                 danhgiasp = LayDanhGiaSanPham(mssv),
                 giagocsp = (double)s.SP_GIA,
                 dongiasp = TinhDonGiaSanPham(id),
@@ -175,7 +176,75 @@ namespace QL_CDC.Controllers
             }
             SP.anhsp = tempstrlist;
 
+            List<NhanXetModel> B = new List<NhanXetModel>();
+            foreach(var i in db.NHANXETNGUOIBANs.OrderByDescending(a => a.NX_NGAY))
+            {
+                if(i.SV_MSSV_B == s.SV_MSSV)
+                {
+                    NhanXetModel b = new NhanXetModel()
+                    {
+                        mssv_m = i.SV_MSSV_M,
+                        noidung = i.NX_NOIDUNG,
+                        danhgia = (int)i.NX_GIATRI,
+                        img = db.HINHANHs.Where(a => a.SV_MSSV == i.SV_MSSV_M).Select(a => a.HA_LINK).FirstOrDefault(),
+                        ngay = ((DateTime)i.NX_NGAY).ToString("dd/MM/yyyy"),
+                    };
+                    B.Add(b);
+                }
+            }
+            SP.nhanxetsp = B;
             return View(SP);
         }
+
+        [Authorize]
+        public IActionResult NhanXetSanPham(string sao, string bl, string svb, string mssp)
+        {
+            int s; int.TryParse(sao, out s);
+            var m = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var b = svb;
+            NHANXETNGUOIBAN N = db.NHANXETNGUOIBANs.Where(a => a.SV_MSSV_B == b && a.SV_MSSV_M == m).FirstOrDefault();
+            if(N != null)
+            {
+                db.NHANXETNGUOIBANs.Remove(N);
+                db.SaveChanges();
+            }
+            NHANXETNGUOIBAN n = new NHANXETNGUOIBAN()
+            {
+                SV_MSSV_M = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                SV_MSSV_B = svb,
+                NX_GIATRI = s,
+                NX_NOIDUNG = bl,
+                NX_NGAY = DateTime.Now,
+            };
+            db.NHANXETNGUOIBANs.Add(n);
+            db.SaveChanges();
+
+            SANPHAM sp = db.SANPHAMs.Where(a => a.SP_MSSP == mssp).FirstOrDefault();
+            SanPhamModel model = new SanPhamModel() {
+                nguoidangsp = db.SINHVIENs.Where(a => a.SV_MSSV == svb).Select(a => a.SV_TENHIENTHI).FirstOrDefault(),
+                msnguoidang = svb,
+                masp = mssp,
+            }; 
+            List<NhanXetModel> B = new List<NhanXetModel>();
+            foreach (var i in db.NHANXETNGUOIBANs.OrderByDescending(a => a.NX_NGAY))
+            {
+                if (i.SV_MSSV_B == sp.SV_MSSV)
+                {
+                    NhanXetModel nx = new NhanXetModel()
+                    {
+                        mssv_m = i.SV_MSSV_M,
+                        noidung = i.NX_NOIDUNG,
+                        danhgia = (int)i.NX_GIATRI,
+                        img = db.HINHANHs.Where(a => a.SV_MSSV == i.SV_MSSV_M).Select(a => a.HA_LINK).FirstOrDefault(),
+                        ngay = ((DateTime)i.NX_NGAY).ToString("dd/MM/yyyy"),
+                    };
+                    B.Add(nx);
+                }
+            }
+            model.nhanxetsp = B;
+            return PartialView("_NhanXetPartial", model);
+        }
+
+        #endregion 
     }
 }
