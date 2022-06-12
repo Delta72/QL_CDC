@@ -193,6 +193,12 @@ namespace QL_CDC.Controllers
                 }
             }
             SP.nhanxetsp = B;
+
+            db.Entry(s).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            s.SP_LUOTXEM += 1;
+            db.Entry(s).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.SaveChanges();
+
             return View(SP);
         }
 

@@ -9,6 +9,7 @@ namespace QL_CDC.Models
 {
     public class ThemSanPhamModel
     {
+        public string masp { get; set; }
         public string tensp { get; set; }
         public List<IFormFile> img { get; set; }
         public int mahang { get; set; }
