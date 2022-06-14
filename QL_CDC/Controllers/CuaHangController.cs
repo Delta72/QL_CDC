@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Authorization;
 using QL_CDC.Models;
 using System.Security.Claims;
 using System.Dynamic;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp;
 
 namespace QL_CDC.Controllers
 {
@@ -51,7 +55,8 @@ namespace QL_CDC.Controllers
             model.mh = L;
 
             List<SelectListModel> L2 = new List<SelectListModel>();
-            foreach (var x in db.LOAISANPHAMs.Where(a => a.LOAI_MALOAI == SP.LOAI_MALOAI))
+            int mahang = db.LOAISANPHAMs.Where(a => a.LOAI_MALOAI == SP.LOAI_MALOAI).Select(a => a.MH_MAMH).FirstOrDefault();
+            foreach (var x in db.LOAISANPHAMs.Where(a => a.MH_MAMH == mahang))
             {
                 SelectListModel s = new SelectListModel();
                 s.id = x.LOAI_MALOAI;
@@ -85,8 +90,49 @@ namespace QL_CDC.Controllers
         public IActionResult LuuSuaSanPham(ThemSanPhamModel model)
         {
             SANPHAM S = db.SANPHAMs.Where(a => a.SP_MSSP == model.masp).FirstOrDefault();
+            db.Entry(S).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            S.SP_TENSP = model.tensp;
+            S.LOAI_MALOAI = model.maloai;
+            S.SP_THOIGIANSUDUNG = model.tg;
+            S.SP_GIA = model.gia;
+            S.SP_CONLAI = model.sl;
+            S.SP_HANGSX = model.nsx;
+            S.SP_MOTA = model.mota;
+            db.Entry(S).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.SaveChanges();
 
-            return RedirectToAction("SuaSanPham", new { id = S.SP_MSSP});
+            if (model.img != null)
+            {
+                foreach(var i in db.HINHANHs.Where(a => a.SP_MSSP == model.masp).ToList())
+                {
+                    FileInfo f = new FileInfo(Directory.GetCurrentDirectory() + "\\wwwroot" + i.HA_LINK);
+                    f.Delete();
+                    db.HINHANHs.Remove(i);
+                    db.SaveChanges();
+                }
+                foreach (var i in model.img)
+                {
+                    HINHANH HA = new HINHANH()
+                    {
+                        HA_MSHA = Guid.NewGuid().ToString(),
+                        SP_MSSP = model.masp,
+                        HA_LINK = UploadImage(i),
+                    };
+                    db.HINHANHs.Add(HA);
+                    db.SaveChanges();
+                }
+            }
+            return Json(true);
+        }
+        public string UploadImage(IFormFile img)
+        {
+            var filename = Guid.NewGuid().ToString() + img.FileName;
+            var filepath = Directory.GetCurrentDirectory() + "\\wwwroot\\sanpham\\" + filename;
+            using var image = SixLabors.ImageSharp.Image.Load(img.OpenReadStream());
+            image.Mutate(x => x.Resize(500, 500));
+            image.Save(filepath);
+            var report = "\\sanpham\\" + filename;
+            return report;
         }
     }
 }

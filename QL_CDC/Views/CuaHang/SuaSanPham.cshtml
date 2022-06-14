@@ -224,7 +224,8 @@
         return check;
     }
     function LuuSuaSanPham() {
-        var tensp = document.getElementById('add_ten').value;
+        if (confirm("Sửa thông tin sản phẩm?")) {
+            var tensp = document.getElementById('add_ten').value;
         var mahang = document.getElementById('add_mh').value;
         var maloai = document.getElementById('add_l').value;
         var gia = $('#add_gia').val();
@@ -259,9 +260,13 @@
                 contentType: false,
                 data: formData,
                 success: function (data) {
-
+                    window.location.href = '/CuaHang/SuaSanPham/' + masp;
+                },
+                error: function () {
+                    // window.location.href = '/CuaHang/SuaSanPham/' + masp;
                 }
             })
+        }
         }
     }
 </script>

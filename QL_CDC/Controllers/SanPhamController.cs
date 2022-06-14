@@ -113,6 +113,7 @@ namespace QL_CDC.Controllers
                 SP_DABAN = 0,
                 SP_HANGSX = model.nsx,
                 SP_MOTA = model.mota,
+                SP_LUOTXEM = 0
             };
             db.SANPHAMs.Add(SP);
             db.SaveChanges();
@@ -144,7 +145,7 @@ namespace QL_CDC.Controllers
         }
         
         [AllowAnonymous]
-        public IActionResult ChiTietSanPham_A(string id)
+        public IActionResult ChiTietSanPham(string id)
         {
             SANPHAM s = db.SANPHAMs.Where(a => a.SP_MSSP == id).FirstOrDefault();
             string mssv = db.SINHVIENs.Where(a => a.SV_MSSV == s.SV_MSSV).Select(a => a.SV_MSSV).FirstOrDefault();

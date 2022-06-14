@@ -2591,23 +2591,7 @@ fieldset:disabled a.btn {
         box-shadow: 0 0 0 0.2rem rgba(206, 210, 223, 0.5);
     }
 
-    .btn-secondary.disabled, .btn-secondary:disabled {
-        color: #212529;
-        background-color: #EDF1FF;
-        border-color: #EDF1FF;
-    }
-
-    .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
-    .show > .btn-secondary.dropdown-toggle {
-        color: #212529;
-        background-color: #bac9ff;
-        border-color: #adbfff;
-    }
-
-        .btn-secondary:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus,
-        .show > .btn-secondary.dropdown-toggle:focus {
-            box-shadow: 0 0 0 0.2rem rgba(206, 210, 223, 0.5);
-        }
+    
 
 .btn-success {
     color: #fff;
@@ -2634,17 +2618,7 @@ fieldset:disabled a.btn {
         border-color: #28a745;
     }
 
-    .btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active,
-    .show > .btn-success.dropdown-toggle {
-        color: #fff;
-        background-color: #1e7e34;
-        border-color: #1c7430;
-    }
-
-        .btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus,
-        .show > .btn-success.dropdown-toggle:focus {
-            box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
-        }
+    
 
 .btn-info {
     color: #fff;
@@ -2671,17 +2645,6 @@ fieldset:disabled a.btn {
         border-color: #17a2b8;
     }
 
-    .btn-info:not(:disabled):not(.disabled):active, .btn-info:not(:disabled):not(.disabled).active,
-    .show > .btn-info.dropdown-toggle {
-        color: #fff;
-        background-color: #117a8b;
-        border-color: #10707f;
-    }
-
-        .btn-info:not(:disabled):not(.disabled):active:focus, .btn-info:not(:disabled):not(.disabled).active:focus,
-        .show > .btn-info.dropdown-toggle:focus {
-            box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
-        }
 
 .btn-warning {
     color: #212529;
@@ -10630,7 +10593,7 @@ a.text-dark:hover, a.text-dark:focus {
     position: fixed;
     top: 30%;
     left: 35%;
-    border: 1px solid #1efc0a;
+    border: 5px solid #1efc0a;
     height: 40%;
     width: 30%;
     background-color: rgba(0, 0, 0, 0.5);
@@ -10640,7 +10603,7 @@ a.text-dark:hover, a.text-dark:focus {
 
     #alertdiv p {
         text-align: center;
-        color: #0f893b;
+        color: #1efc0a;
         font-size: 40px;
         margin-top: 5vh;
     }
@@ -10656,7 +10619,7 @@ a.text-dark:hover, a.text-dark:focus {
         position: fixed;
         top: 35%;
         left: 20%;
-        border: 1px solid #1efc0a;
+        border: 5px solid #1efc0a;
         height: 30%;
         width: 60%;
         background-color: rgba(0, 0, 0, 0.5);
@@ -10831,4 +10794,154 @@ a.text-dark:hover, a.text-dark:focus {
     .cuahangten p {
         font-size: 3.5vw;
     }
+}
+
+.chat_khungchat {
+    z-index: 1;
+    position: absolute;
+    position: fixed;
+    float: right;
+    border: 3px solid #0f893b;
+    height: 50vh;
+    width: 30vw;
+    right: 1em;
+    top: 33%;
+    background: #d7d7d7;
+    border-radius: 10px;
+    display: none;
+}
+.chat_chat {
+    z-index: 1;
+    position: absolute;
+    position: fixed;
+    float: right;
+    height: 5em;
+    width: 5em;
+    top: 20vh;
+    border: 5px solid #0f893b;
+    right: 1em;
+    background: #EDF1FF;
+    border-radius: 15px;
+    text-align: center;
+    line-height: 5em;
+    vertical-align: middle;
+}
+
+    .chat_chat i {
+        font-size: 3em;
+        color: #0f893b;
+    }
+
+    .chat_chat:hover {
+        cursor: pointer;
+    }
+
+@media (max-width: 900px) {
+    .chat_khungchat {
+        width: 60vw;
+        top: 35%;
+    }
+
+    .chat_chat {
+        width: 3em;
+        height: 3em;
+        line-height: 3em;
+        top: 27%;
+    }
+
+        .chat_chat i {
+            font-size: 2em;
+            color: #0f893b;
+        }
+}
+
+.chat_noidung {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: block;
+}
+
+.chat_soantin {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    margin-top: 0.5em;
+    border-radius: 5px;
+}
+
+    .chat_soantin input:focus {
+        border: 1px solid #0f893b;
+        width: 80%;
+        border-radius: 5px;
+    }
+    .chat_soantin input {
+        border: 1px solid #0f893b;
+        border-radius: 5px;
+    }
+    .chat_soantin button{
+        width: 20%;
+        margin-left: 5px;
+    }
+
+    .chat_noidung small {
+        float: right
+    }
+.chat_tn {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+
+}
+
+.chat_gui {
+    float: right;
+    clear: both;
+    margin-right: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 60%;
+    display: block;
+    background: rgba(15, 137, 60, 0.8);
+    color: rgba(255, 255, 255, 1);
+}
+
+.chat_nhan {
+    float: left;
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    clear: both;
+    max-width: 60%;
+    display: block;
+    background: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 138, 51, 1);
+}
+
+.chat_tinnhan {
+    border-radius: 5px;
+}
+
+#chat_danhsach {
+    position: fixed;
+    height: 50vh;
+    width: 20vw;
+    right: 32vw;
+    top: 33%;
+    border: 1px solid #0f893b;
+    border-radius: 5px;
+    background: #d7d7d7;
+}
+
+.chat_doanchat {
+    width: 100%;
+    height: 50px;
+    border: 1px solid red;
+    margin-bottom: 3px;
+}
+
+.chat_doanchat_nguoigui {
+    overflow: hidden;
+    margin-left: 5px;
+    margin-right: 30px;
 }
