@@ -10381,7 +10381,7 @@ a.text-dark:hover, a.text-dark:focus {
 
     .dndktable input {
         border: 0.5px solid #6c757d;
-        border-radius: 7%;
+        border-radius: 7px;
         margin-left: 10vw;
         margin-top: 3vh;
         width: 20vw;
@@ -10808,7 +10808,6 @@ a.text-dark:hover, a.text-dark:focus {
     top: 33%;
     background: #d7d7d7;
     border-radius: 10px;
-    display: none;
 }
 .chat_chat {
     z-index: 1;
@@ -10830,6 +10829,14 @@ a.text-dark:hover, a.text-dark:focus {
     .chat_chat i {
         font-size: 3em;
         color: #0f893b;
+    }
+
+    .chat_chat strong {
+        font-size: 18px;
+        color: #ffffff;
+        position: fixed;
+        margin-left: 10px;
+        margin-top: -13px;
     }
 
     .chat_chat:hover {
@@ -10923,25 +10930,90 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 #chat_danhsach {
-    position: fixed;
+    position: fixed !important;
     height: 50vh;
     width: 20vw;
     right: 32vw;
     top: 33%;
-    border: 1px solid #0f893b;
+    border: 3px solid #0f893b;
     border-radius: 5px;
     background: #d7d7d7;
+    z-index: 1;
+    position: absolute;
+    overflow: auto;
 }
 
 .chat_doanchat {
     width: 100%;
     height: 50px;
-    border: 1px solid red;
-    margin-bottom: 3px;
+    border-bottom: 1px solid #0f893b;
+    display: flex;
 }
 
-.chat_doanchat_nguoigui {
+    .chat_doanchat:hover {
+        cursor: pointer;
+        background: #c2c4c3;
+    }
+
+@media (max-width: 900px){
+    #chat_danhsach {
+        position: fixed;
+        z-index: 1;
+        height: 50vh;
+        width: 50px;
+        right: 65vw;
+        top: 35%;
+        border: 1px solid #0f893b;
+        border-radius: 5px;
+        background: #d7d7d7;
+        font-size: 0.8em;
+    }
+    #chat_ten {
+        display: none;
+    }
+
+   
+}
+
+.chat_table {
+    overflow: hidden !important;
+    table-layout: fixed;
+    white-space: nowrap;
+    margin-right:5px;
+    width: 100%;
+}
+
+    .chat_table td {
+        overflow: hidden;
+    }
+
+#ChatChinh {
+    display: none;
+}
+
+#chat_tenshop {
+    width: 20vw;
+    height: 30px;
+    border-radius: 5px;
+    border: 3px solid #0f893b;
+    position: fixed;
+    top: 28%;
+    right: 11vw;
     overflow: hidden;
+    z-index: 1;
+    background: #d7d7d7;
+}
+
+#chat_tenshop strong {
+    color: #0f893b;
     margin-left: 5px;
-    margin-right: 30px;
+    font-size: 18px;
+}
+
+@media (max-width: 900px) {
+    #chat_tenshop {
+        right: 40vw;
+        width: 35vw;
+        top: 30%;
+    }
 }
