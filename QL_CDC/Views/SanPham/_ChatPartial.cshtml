@@ -1,6 +1,6 @@
 ﻿
 
-<div class="chat_chat" onclick="AnHienKhungChat()"><strong id="sotn">0</strong><i class="fa fa-comments"></i></div>
+<div class="chat_chat" onclick="AnHienKhungChat()" id="chat_chat"><strong id="sotn">0</strong><i class="fa fa-comments"></i></div>
 <div id="ChatChinh">
     <div id="chat_danhsach">
         
@@ -14,6 +14,13 @@
 </div>
 
 <script>
+    // chat moi
+    function BatDauChatMoi(id, tenshop) {
+        // console.log(id);
+        document.getElementById('strongtenshop').innerHTML = tenshop;
+        ChiTietChat(id, tenshop);
+    }
+
     // chi tiet chat
     function ChiTietChat(id, tenshop) {
         // console.log(id);
@@ -37,18 +44,46 @@
                     
                 }
                 str += '</div>';
-                str += '<div class="chat_soantin"><input class="form-control" type="text" id="chat_msg" /><button class="form-control btn-primary fa fa-paper-plane-o"></button></div>';
+                str += '<div class="chat_soantin"><input class="form-control" type="text" id="chat_msg" /><button class="form-control btn-primary fa fa-paper-plane-o" onclick="GuiTinNhan(\'' + id + '\',\'' + tenshop + '\')"></button></div>';
                 document.getElementById('chat_khungchat').innerHTML = str;
                 document.getElementById('strongtenshop').innerHTML = tenshop;
                 $("#chat_noidung").scrollTop($("#chat_noidung")[0].scrollHeight);
                 $("#chat_msg").focus();
                 ResetChat();
+                if (data.length == 0) {
+                    var i = '';
+                    i += '<div style="padding: 20% 0; text-align: center;">';
+                    i += '<i class="fa fa-comments" style="font-size: 5em;color:#0f893b"></i>';
+                    i += '<p style="font-size: 18px;color:#0f893b">Bắt đầu trò chuyện</p>'
+                    i += '</div>'
+                    document.getElementById("chat_noidung").innerHTML = i;
+                }
             }
         })
     }
 
-    // Doc tin nhan 
+    // gui tin nhan 
+    function GuiTinNhan(id, tenshop) {
+        document.getElementById('chat_msg').focus();
+        var msg = document.getElementById('chat_msg').value;
+        // console.log(id + ", " + msg);
+        if (msg == "" || msg == null || !/\S/.test(msg)) {
 
+        }
+        else {
+            $.ajax({
+                url: '/Chat/GuiTinNhan',
+                type: 'post',
+                data: {
+                    msg: msg,
+                    id: id
+                },
+                success: function (data) {
+                    ChiTietChat(id, tenshop);
+                }
+            })
+        }
+    }
 
     // an hien khung chat
     function AnHienKhungChat() {
@@ -69,18 +104,28 @@
             url: '/Chat/HienDanhSach',
             type: 'get',
             success: function (data) {
-                console.log(data)
+                //console.log(data[0])
                 var str = ''
                 for (var i in data) {
                     if (data[i].tinCuoi.dadoc == false) {
-                        str += '<div class="chat_doanchat" style="background: #0f893b;border-bottom: 1px solid #ffffff;border-top: 1px solid #ffffff;border-radius:15px" onclick="ChiTietChat(\'' + data[i].maNguoiNhan + '\',\'' + data[i].tenShop + '\')">'
+                        if (data[i].tinCuoi.latinguidi == true) {
+                            str += '<div class="chat_doanchat" style="border-radius:15px" onclick="ChiTietChat(\'' + data[i].maNguoiNhan + '\',\'' + data[i].tenShop + '\')">'
+                        }
+                        else {
+                            str += '<div class="chat_doanchat" style="background: #0f893b;border-bottom: 1px solid #ffffff;border-top: 1px solid #ffffff;border-radius:15px" onclick="ChiTietChat(\'' + data[i].maNguoiGui + '\',\'' + data[i].tenShop + '\')">'
+                        }
                     }
                     else {
                         str += '<div class="chat_doanchat" style="border-radius:15px" onclick="ChiTietChat(\'' + data[i].maNguoiNhan + '\',\'' + data[i].tenShop + '\')">'
                     }
                     str += '<div style="width: 20%;">'
                     if (data[i].tinCuoi.dadoc == false) {
-                        str += '<img src="' + data[i].img + '" style="width: 40px;height:40px;border-radius: 50%;margin-left: 5px;margin-top:5px;border: 1px solid white" />'
+                        if (data[i].tinCuoi.latinguidi == true) {
+                            str += '<img src="' + data[i].img + '" style="width: 40px;height:40px;border-radius: 50%;margin-left: 5px;margin-top:5px;border: 0.5px solid green" />'
+                        }
+                        else {
+                            str += '<img src="' + data[i].img + '" style="width: 40px;height:40px;border-radius: 50%;margin-left: 5px;margin-top:5px;border: 1px solid white" />'
+                        }
                     }
                     else {
                         str += '<img src="' + data[i].img + '" style="width: 40px;height:40px;border-radius: 50%;margin-left: 5px;margin-top:5px;border: 0.5px solid green" />'
@@ -88,14 +133,21 @@
                     str += '</div>'
                     str += '<div style="width: 80%;margin-left:5px;" id="chat_ten">'
                     if (data[i].tinCuoi.dadoc == false) {
-                        str += '<table class="chat_table" style="color:#ffffff">'
+                        if (data[i].tinCuoi.latinguidi == true) {
+                            str += '<table class="chat_table">'
+                        }
+                        else {
+                            str += '<table class="chat_table" style="color:#ffffff">'
+                        }
                     }
                     else {
                         str += '<table class="chat_table">'
                     }
                     
                     str += '<tr><td colspan="3"><strong>' + data[i].tenShop + '</strong></td></tr>'
-                    str += '<tr><td colspan="2">' + data[i].tinCuoi.noidung + '</td><td style="text-align:center !important" colspan="1"><small>' + data[i].tinCuoi.thoigian + '</small></td></tr>'
+                    var b = "";
+                    if (data[i].tinCuoi.latinguidi == true) b = "Bạn: ";
+                    str += '<tr><td colspan="2">' + b + data[i].tinCuoi.noidung + '</td><td style="text-align:center !important" colspan="1"><small>' + data[i].tinCuoi.thoigian + '</small></td></tr>'
                     str += '</table>'
                     str += '</div>'
                     str += '</div>'
@@ -115,6 +167,20 @@
                 document.getElementById('sotn').innerHTML = data;
             }
         })
+    }
+
+    // lay id
+    function GetNameID() {
+        var id = "";
+        $.ajax({
+            url: '/TaiKhoan/LayIDUser',
+            type: 'get',
+            async: false,
+            success: function (data) {
+                id = data;
+            }
+        })
+        return id;
     }
 
     // ready

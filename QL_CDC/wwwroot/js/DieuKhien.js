@@ -11,7 +11,8 @@ function hiensanphamtronggio() {
     })
 }
 
-// format gia tien
+// lay id
+
 
 
 // Ready

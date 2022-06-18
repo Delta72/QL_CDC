@@ -10860,6 +10860,11 @@ a.text-dark:hover, a.text-dark:focus {
             font-size: 2em;
             color: #0f893b;
         }
+        .chat_chat strong {
+            font-size: 18px;
+            margin-left: 8px;
+            margin-top: -7px;
+        }
 }
 
 .chat_noidung {
@@ -11012,8 +11017,11 @@ a.text-dark:hover, a.text-dark:focus {
 
 @media (max-width: 900px) {
     #chat_tenshop {
-        right: 40vw;
+        right: 25vw;
         width: 35vw;
         top: 30%;
     }
+        #chat_tenshop strong {
+            font-size: 13px;
+        }
 }

@@ -29,7 +29,7 @@ namespace QL_CDC.Controllers
                 s.giagocsp = (double)x.SP_GIA;
                 s.dongiasp = TinhDonGiaSanPham(x.SP_MSSP);
                 s.thoigiansp = (int)x.SP_THOIGIANSUDUNG;
-                s.danhgiasp = LayDanhGiaSanPham(x.SP_MSSP);
+                s.danhgiasp = LayDanhGiaSanPham(x.SV_MSSV);
                 s.soluongsp = (int)x.SP_CONLAI;
                 s.anhsp = db.HINHANHs.Where(a => a.SP_MSSP == x.SP_MSSP).Select(a => a.HA_LINK).ToList();
                 SP.Add(s);
