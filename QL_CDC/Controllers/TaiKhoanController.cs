@@ -73,6 +73,12 @@ namespace QL_CDC.Controllers
             return RedirectToAction("Index","SanPham");
         }
 
+        public IActionResult LayIDUser()
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return Json(id);
+        }
+
         public IActionResult Test()
         {
             return View();

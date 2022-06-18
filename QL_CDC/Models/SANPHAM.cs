@@ -26,6 +26,7 @@ namespace QL_CDC.Models
         public int? SP_DABAN { get; set; }
         public string SP_HANGSX { get; set; }
         public string SP_MOTA { get; set; }
+        public int? SP_LUOTXEM { get; set; }
 
         public virtual LOAISANPHAM LOAI_MALOAINavigation { get; set; }
         public virtual SINHVIEN SV_MSSVNavigation { get; set; }

@@ -51,11 +51,15 @@
                 {
                     <h3 class="font-weight-semi-bold mb-4" style="width: 28%"><del>@giagoc Đ</del></h3>
                 }
-
             </div>
             <div class="d-flex mb-3" style="width: 100%;display: flex;">
                 <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 40%;"><strong>Đăng bởi:</strong></p>
-                <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 60%;">@Model.nguoidangsp</p>
+                <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 60%;">
+                    @Model.nguoidangsp
+                    <small id="mochat">
+                        
+                    </small>
+                </p>
             </div>
             <div class="d-flex mb-3" style="width: 100%;display: flex;">
                 <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 40%;"><strong>Ngày đăng:</strong></p>
@@ -92,6 +96,7 @@
             <div class="nav nav-tabs justify-content-center border-secondary mb-4">
                 <a class="nav-item nav-link dndk active" style="color: black" data-toggle="tab" href="#tab-pane-1" id="tabmota">Mô tả</a>
                 <a class="nav-item nav-link dndk" style="color: black" data-toggle="tab" href="#tab-pane-3" id="tabdanhgia">Đánh giá người bán (@Model.nhanxetsp.Count())</a>
+               
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-pane-1">
@@ -107,6 +112,12 @@
 </div>
 <!-- Shop Detail End -->
 <script>
+    // Mo chat
+    function MoChatMoi(id, tenshop) {
+        document.getElementById('chat_chat').click();
+        BatDauChatMoi(id, tenshop)
+    }
+
     function ChiNhapSo(e) {
         e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
     }
@@ -220,6 +231,7 @@
                 mssp: mssp
             },
             success: function (data) {
+                console.log(data);
                 document.getElementById('tab-pane-3').innerHTML = data;
             },
             error: function () {
@@ -230,6 +242,9 @@
 
     $(document).ready(function () {
         tinhsaotong(@sosao);
+        if ('@Model.msnguoidang' != GetNameID()) {
+            document.getElementById('mochat').innerHTML = '<button class="btn btn-primary px-3" onclick="MoChatMoi(\'@Model.msnguoidang\',\'@Model.nguoidangsp\')"><i class="fa fa-comments mr-1"></i> Chat </button>';
+        }
     })
 
 </script>

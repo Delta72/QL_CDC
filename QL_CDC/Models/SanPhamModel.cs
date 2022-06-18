@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace QL_CDC.Models
     {
         public string masp { get; set; }
         public string tensp { get; set; }
+        public int maloai { get; set; }
+        public int mamh { get; set; }
         public List<string> anhsp { get; set; }
         public double giagocsp { get; set; }
         public double dongiasp { get; set; }
@@ -28,6 +31,10 @@ namespace QL_CDC.Models
         public string msnguoidang { get; set; }
         public string ngaydangsp { get; set; }
         public string motasp { get; set; }
+        public string makm { get; set; }
+        public int luotxemsp { get; set; }
+        public string nsx { get; set; }
         public List<NhanXetModel> nhanxetsp { get; set; }
+        public List<IFormFile> img { get; set; } 
     }
 }
