@@ -36,7 +36,7 @@
 
         <div class="col-lg-7 pb-5 thongtin">
             <h3 class="font-weight-semi-bold">@Model.tensp</h3>
-            @{ 
+            @{
                 var sosao = Math.Round(Model.danhgiasp, 0, MidpointRounding.AwayFromZero);
             }
             <div class="d-flex mb-3">
@@ -57,13 +57,21 @@
                 <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 60%;">
                     @Model.nguoidangsp
                     <small id="mochat">
-                        
+
                     </small>
                 </p>
             </div>
             <div class="d-flex mb-3" style="width: 100%;display: flex;">
                 <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 40%;"><strong>Ngày đăng:</strong></p>
                 <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 60%;">@Model.ngaydangsp</p>
+            </div>
+            <div class="d-flex mb-3" style="width: 100%;display: flex;">
+                <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 40%;"><strong>Loại sản phẩm:</strong></p>
+                <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 60%;">@Model.loai</p>
+            </div>
+            <div class="d-flex mb-3" style="width: 100%;display: flex;">
+                <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 40%;"><strong>Hãng sản xuất:</strong></p>
+                <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 60%;">@Model.nsx</p>
             </div>
             <div class="d-flex mb-3" style="width: 100%;display: flex;">
                 <p class="text-dark font-weight-medium mb-0 mr-3" style="width: 40%;"><strong>Thời gian sử dụng:</strong></p>
@@ -118,9 +126,12 @@
         BatDauChatMoi(id, tenshop)
     }
 
+    // input chi nhap so
     function ChiNhapSo(e) {
         e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
     }
+
+    // kiem tra so luong san pham
     function KiemTraSoLuongSanPham(x) {
         var sl = $('#soluongsp').val();
         if (sl > x) {
@@ -130,6 +141,8 @@
             document.getElementById('soluongsp').value = 1;
         }
     }
+
+    // them 1 sp 
     function Tang1(x) {
         var sl = $('#soluongsp').val();
         if (parseInt(sl) + 1 > x) {
@@ -139,6 +152,8 @@
             document.getElementById('soluongsp').value = parseInt(sl) + 1;
         }
     }
+
+    // giam 1 san pham
     function Giam1() {
         var sl = $('#soluongsp').val();
         if (parseInt(sl) == 1) {
@@ -148,6 +163,8 @@
             document.getElementById('soluongsp').value = parseInt(sl) - 1;
         }
     }
+
+    // doi sao
     function doisao(id) {
         for (var i = 1; i <= 5; i++) {
             document.getElementById('sao' + i).className = "far fa-star";
@@ -158,6 +175,7 @@
         }
     }
 
+    // them san pham vao gio
     function ThemNhieuVaoGio(ma) {
         var sl = parseInt($('#soluongsp').val());
         if (sl < 1) sl = 1;
@@ -177,6 +195,8 @@
             }
         })
     }
+
+    // thong bao da them vao gio
     function tempAlert(msg, duration) {
         var el = document.getElementById('alertdiv');
 
@@ -193,6 +213,7 @@
         document.body.appendChild(el);
     }
 
+    // tinh tong so sao danh gia
     function tinhsaotong(x) {
         var div = document.getElementById('saotong');
         var str = '';
@@ -211,6 +232,7 @@
     function HienDanhGiaSanPham() {
         $("#tab-pane-3").load('/SanPham/NhanXetPartialView');
     }
+
     // Binh luan san pham
     function NhanXetSanPham(svb, mssp) {
         var sao = 0;

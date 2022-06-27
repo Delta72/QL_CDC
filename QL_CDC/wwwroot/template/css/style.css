@@ -2318,16 +2318,16 @@ textarea.form-control {
 }
 
 .was-validated .custom-control-input:valid ~ .custom-control-label, .custom-control-input.is-valid ~ .custom-control-label {
-    color: #28a745;
+    color: #0f893b;
 }
 
     .was-validated .custom-control-input:valid ~ .custom-control-label::before, .custom-control-input.is-valid ~ .custom-control-label::before {
-        border-color: #28a745;
+        border-color: #0f893b;
     }
 
 .was-validated .custom-control-input:valid:checked ~ .custom-control-label::before, .custom-control-input.is-valid:checked ~ .custom-control-label::before {
-    border-color: #34ce57;
-    background-color: #34ce57;
+    border-color: #0f893b;
+    background-color: #0f893b;
 }
 
 .was-validated .custom-control-input:valid:focus ~ .custom-control-label::before, .custom-control-input.is-valid:focus ~ .custom-control-label::before {
@@ -2335,11 +2335,11 @@ textarea.form-control {
 }
 
 .was-validated .custom-control-input:valid:focus:not(:checked) ~ .custom-control-label::before, .custom-control-input.is-valid:focus:not(:checked) ~ .custom-control-label::before {
-    border-color: #28a745;
+    border-color: #0f893b;
 }
 
 .was-validated .custom-file-input:valid ~ .custom-file-label, .custom-file-input.is-valid ~ .custom-file-label {
-    border-color: #28a745;
+    border-color: #0f893b;
 }
 
 .was-validated .custom-file-input:valid:focus ~ .custom-file-label, .custom-file-input.is-valid:focus ~ .custom-file-label {
@@ -2418,16 +2418,16 @@ textarea.form-control {
 }
 
 .was-validated .custom-control-input:invalid ~ .custom-control-label, .custom-control-input.is-invalid ~ .custom-control-label {
-    color: #dc3545;
+    color: #0f893b;
 }
 
     .was-validated .custom-control-input:invalid ~ .custom-control-label::before, .custom-control-input.is-invalid ~ .custom-control-label::before {
-        border-color: #dc3545;
+        border-color: #0f893b;
     }
 
 .was-validated .custom-control-input:invalid:checked ~ .custom-control-label::before, .custom-control-input.is-invalid:checked ~ .custom-control-label::before {
-    border-color: #e4606d;
-    background-color: #e4606d;
+    border-color: #0f893b;
+    background-color: #0f893b;
 }
 
 .was-validated .custom-control-input:invalid:focus ~ .custom-control-label::before, .custom-control-input.is-invalid:focus ~ .custom-control-label::before {
@@ -3651,7 +3651,7 @@ input[type="button"].btn-block {
     }
 
     .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
-        border-color: #f8f0ef;
+        border-color: #0f893b;
     }
 
     .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
@@ -3661,11 +3661,11 @@ input[type="button"].btn-block {
     }
 
     .custom-control-input[disabled] ~ .custom-control-label, .custom-control-input:disabled ~ .custom-control-label {
-        color: #6c757d;
+        color: #0f893b;
     }
 
         .custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
-            background-color: #e9ecef;
+            background-color: #0f893b;
         }
 
 .custom-control-label {
@@ -3703,8 +3703,8 @@ input[type="button"].btn-block {
 }
 
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
-    border-color: #D19C97;
-    background-color: #D19C97;
+    border-color: #0f893b;
+    background-color: #0f893b;
 }
 
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::after {
@@ -3712,11 +3712,11 @@ input[type="button"].btn-block {
 }
 
 .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
-    background-color: rgba(209, 156, 151, 0.5);
+    background-color: #0f893b;
 }
 
 .custom-checkbox .custom-control-input:disabled:indeterminate ~ .custom-control-label::before {
-    background-color: rgba(209, 156, 151, 0.5);
+    background-color: #0f893b;
 }
 
 .custom-radio .custom-control-label::before {
@@ -3728,7 +3728,7 @@ input[type="button"].btn-block {
 }
 
 .custom-radio .custom-control-input:disabled:checked ~ .custom-control-label::before {
-    background-color: rgba(209, 156, 151, 0.5);
+    background-color: #0f893b;
 }
 
 .custom-switch {
@@ -3764,7 +3764,7 @@ input[type="button"].btn-block {
 }
 
 .custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
-    background-color: rgba(209, 156, 151, 0.5);
+    background-color: #0f893b;
 }
 
 .custom-select {
@@ -11004,7 +11004,6 @@ a.text-dark:hover, a.text-dark:focus {
     position: fixed;
     top: 28%;
     right: 11vw;
-    overflow: hidden;
     z-index: 1;
     background: #d7d7d7;
 }
@@ -11025,3 +11024,78 @@ a.text-dark:hover, a.text-dark:focus {
             font-size: 13px;
         }
 }
+
+.hoadonthe {
+    height: 5vh;
+    width: 100%;
+    border-top: 2px solid green;
+    border-bottom: 2px solid green;
+    display: flex;
+    line-height: 5vh;
+    vertical-align: middle;
+    text-align: center;
+    overflow: hidden;
+    margin-bottom: 1vh;
+}
+
+.hoadontieude {
+    height: 10vh;
+    width: 100%;
+    border-top: 2px solid green;
+    border-bottom: 2px solid green;
+    margin-top: -5vh;
+    margin-bottom: 2vh;
+    display: flex;
+    line-height: 10vh;
+    vertical-align: middle;
+    text-align: center;
+}
+
+    .hoadontieude div {
+        border-right: 2px solid #0f893b;
+        border-left: 2px solid #0f893b;
+    }
+    .hoadontieude strong {
+        display: inline-block;
+        line-height: normal;
+        vertical-align: middle;
+    }
+.hoadonthe div {
+    border-right: 2px solid #0f893b;
+    border-left: 2px solid #0f893b;
+}
+.hoadonthe:hover {
+    cursor: pointer;
+    background: rgba(15, 137, 60, 0.5);
+    color: black;
+    
+}
+
+
+
+
+@media (max-width: 700px) {
+    .hoadonthe strong {
+        font-size: 13px;
+    }
+}
+
+.btnHuy {
+    height: 6vh;
+    width: 10vw;
+    border: 1px solid black;
+    color: white;
+    background-color: #c70039;
+    text-align: center;
+    line-height: 6vh;
+    vertical-align: middle;
+    font-size: 1.5vw;
+    border-radius: 7px;
+}
+
+    .btnHuy:hover {
+        color: #c70039;
+        background-color: white;
+        border: 1px solid #c70039;
+        cursor: pointer;
+    }

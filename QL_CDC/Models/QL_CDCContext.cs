@@ -28,6 +28,7 @@ namespace QL_CDC.Models
         public virtual DbSet<NHANXETNGUOIBAN> NHANXETNGUOIBANs { get; set; }
         public virtual DbSet<SANPHAM> SANPHAMs { get; set; }
         public virtual DbSet<SINHVIEN> SINHVIENs { get; set; }
+        public virtual DbSet<TIENSHIP> TIENSHIPs { get; set; }
         public virtual DbSet<TINHTRANGHOADON> TINHTRANGHOADONs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -201,7 +202,16 @@ namespace QL_CDC.Models
                     .IsUnicode(false)
                     .IsFixedLength(true);
 
+                entity.Property(e => e.HD_DIACHI).HasMaxLength(500);
+
                 entity.Property(e => e.HD_NGAYMUA).HasColumnType("datetime");
+
+                entity.Property(e => e.HD_NGUOINHAN).HasMaxLength(200);
+
+                entity.Property(e => e.HD_SDT)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.SV_MSSV)
                     .IsRequired()
@@ -268,6 +278,8 @@ namespace QL_CDC.Models
 
                 entity.ToTable("LOAISANPHAM");
 
+                entity.HasIndex(e => e.SHIP_MA, "CO4_FK");
+
                 entity.HasIndex(e => e.MH_MAMH, "THUOC2_FK");
 
                 entity.Property(e => e.LOAI_MALOAI).ValueGeneratedNever();
@@ -279,6 +291,12 @@ namespace QL_CDC.Models
                     .HasForeignKey(d => d.MH_MAMH)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_LOAISANP_THUOC2_LOAIMATH");
+
+                entity.HasOne(d => d.SHIP_MANavigation)
+                    .WithMany(p => p.LOAISANPHAMs)
+                    .HasForeignKey(d => d.SHIP_MA)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LOAISANP_CO4_TIENSHIP");
             });
 
             modelBuilder.Entity<NHANXETNGUOIBAN>(entity =>
@@ -392,6 +410,16 @@ namespace QL_CDC.Models
                     .IsFixedLength(true);
 
                 entity.Property(e => e.SV_TENHIENTHI).HasMaxLength(200);
+            });
+
+            modelBuilder.Entity<TIENSHIP>(entity =>
+            {
+                entity.HasKey(e => e.SHIP_MA)
+                    .IsClustered(false);
+
+                entity.ToTable("TIENSHIP");
+
+                entity.Property(e => e.SHIP_MA).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<TINHTRANGHOADON>(entity =>
