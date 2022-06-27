@@ -20,6 +20,7 @@ namespace QL_CDC.Models
         public string masp { get; set; }
         public string tensp { get; set; }
         public int maloai { get; set; }
+        public string anhdaidien { get; set; }
         public int mamh { get; set; }
         public List<string> anhsp { get; set; }
         public double giagocsp { get; set; }
@@ -34,6 +35,7 @@ namespace QL_CDC.Models
         public string makm { get; set; }
         public int luotxemsp { get; set; }
         public string nsx { get; set; }
+        public string loai { get; set; }
         public List<NhanXetModel> nhanxetsp { get; set; }
         public List<IFormFile> img { get; set; } 
     }

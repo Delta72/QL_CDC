@@ -164,6 +164,8 @@ namespace QL_CDC.Controllers
                 thoigiansp = (int)s.SP_THOIGIANSUDUNG,
                 soluongsp = (int)s.SP_CONLAI,
                 motasp = s.SP_MOTA,
+                nsx = s.SP_HANGSX,
+                loai = db.LOAISANPHAMs.Where(a => a.LOAI_MALOAI == s.LOAI_MALOAI).Select(a => a.LOAI_TENLOAI).First(), 
             };
 
             List<string> tempstrlist = new List<string>();
