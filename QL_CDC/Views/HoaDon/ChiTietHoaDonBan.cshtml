@@ -7,6 +7,7 @@
 
 @{ 
     var TT = 0;
+    var MSHD = "";
 }
 <div class="text-center mb-4">
     <h2 class="section-title px-5"><span class="px-2">Chi tiết hóa đơn</span></h2>
@@ -50,6 +51,7 @@
                 @foreach (var HD in Model.HD)
                 {
                     TT = HD.MaTinhTrang;
+                    MSHD = HD.MaHoaDon;
                     <div class="card-body">
                         <table class="table  mb-0">
                             <tr>
@@ -113,16 +115,16 @@
             @if (TT == 1)
             {
         <div class="table-themsanpham" style="margin-top:-2vh;">
-            <div style="width:10%"></div>
-            <div class="btnaddfile" style="width:80%" onclick="">Xác nhận đang giao hàng</div>
-            <div style="width:10%"></div>
+            <div class="btnaddfile" style="width:40%" onclick="XacNhan('@MSHD')">Xác nhận đơn hàng</div>
+            <div style="width:20%"></div>
+            <div class="btnHuy" style="width:40%" onclick="Huy('@MSHD')">Hủy đơn hàng</div>
         </div>
             }
             else if (TT == 2)
             {
                 <div class="table-themsanpham" style="margin-top:-2vh;">
                     <div style="width:20%"></div>
-                    <div class="btnaddfile" style="width:60%" onclick="">Xác nhận đã đóng gói</div>
+                    <div class="btnaddfile" style="width:60%" onclick="XacNhan('@MSHD')">Xác nhận đã đóng gói</div>
                     <div style="width:20%"></div>
                 </div>
             }
@@ -130,7 +132,7 @@
             {
                 <div class="table-themsanpham" style="margin-top:-2vh;">
                     <div style="width:20%"></div>
-                    <div class="btnaddfile" style="width:60%" onclick="">Xác nhận đang giao hàng</div>
+                    <div class="btnaddfile" style="width:60%" onclick="XacNhan('@MSHD')">Xác nhận đang giao hàng</div>
                     <div style="width:20%"></div>
                 </div>
             }
@@ -138,7 +140,7 @@
             {
                 <div class="table-themsanpham" style="margin-top:-2vh;">
                     <div style="width:70%"></div>
-                    <div class="btnHuy" style="width:30%" onclick="">Hủy hóa đơn</div>
+                    <div class="btnHuy" style="width:30%" onclick="Huy('@MSHD')">Hủy hóa đơn</div>
                 </div>
             }
         </div>
@@ -153,6 +155,41 @@
         id = GetNameID();
         //console.log(id + ',' + tenshop);
         BatDauChatMoi(id, tenshop)
+    }
+
+    // Xac nhan hoa don
+    function XacNhan(ms) {
+        console.log(ms);
+        if (window.confirm("Xác nhận thao tác?")) {
+            $.ajax({
+                url: '/HoaDon/XacNhanHoaDon',
+                type: 'post',
+                data: {
+                    mshd: ms,
+                },
+                success: function (data) {
+                    window.location.reload();
+                    console.log(ms);
+                }
+            })
+        }
+    }
+
+    // Huy hoa don
+    function Huy(ms) {
+        if (window.confirm("Xác nhận thao tác?")) {
+            $.ajax({
+                url: '/HoaDon/HuyHoaDon',
+                type: 'post',
+                data: {
+                    mshd: ms,
+                },
+                success: function (data) {
+                    window.location.reload();
+                    console.log(ms);
+                }
+            })
+        }
     }
 
     //ready
