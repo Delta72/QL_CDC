@@ -21,18 +21,22 @@ namespace QL_CDC.Controllers
         public IActionResult Index()
         {
             List<SanPhamModel> SP = new List<SanPhamModel>();
-            foreach(var x in db.SANPHAMs)
+            var mssv = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            foreach (var x in db.SANPHAMs)
             {
-                SanPhamModel s = new SanPhamModel();
-                s.masp = x.SP_MSSP;
-                s.tensp = x.SP_TENSP;
-                s.giagocsp = (double)x.SP_GIA;
-                s.dongiasp = TinhDonGiaSanPham(x.SP_MSSP);
-                s.thoigiansp = (int)x.SP_THOIGIANSUDUNG;
-                s.danhgiasp = LayDanhGiaSanPham(x.SV_MSSV);
-                s.soluongsp = (int)x.SP_CONLAI;
-                s.anhsp = db.HINHANHs.Where(a => a.SP_MSSP == x.SP_MSSP).Select(a => a.HA_LINK).ToList();
-                SP.Add(s);
+                if(x.SV_MSSV != mssv)
+                {
+                    SanPhamModel s = new SanPhamModel();
+                    s.masp = x.SP_MSSP;
+                    s.tensp = x.SP_TENSP;
+                    s.giagocsp = (double)x.SP_GIA;
+                    s.dongiasp = TinhDonGiaSanPham(x.SP_MSSP);
+                    s.thoigiansp = (int)x.SP_THOIGIANSUDUNG;
+                    s.danhgiasp = LayDanhGiaSanPham(x.SV_MSSV);
+                    s.soluongsp = (int)x.SP_CONLAI;
+                    s.anhsp = db.HINHANHs.Where(a => a.SP_MSSP == x.SP_MSSP).Select(a => a.HA_LINK).ToList();
+                    SP.Add(s);
+                }
             }
             return View(SP);
         }
@@ -149,60 +153,67 @@ namespace QL_CDC.Controllers
         {
             SANPHAM s = db.SANPHAMs.Where(a => a.SP_MSSP == id).FirstOrDefault();
             string mssv = db.SINHVIENs.Where(a => a.SV_MSSV == s.SV_MSSV).Select(a => a.SV_MSSV).FirstOrDefault();
-            string nguoidang = db.SINHVIENs.Where(a => a.SV_MSSV == s.SV_MSSV).Select(a => a.SV_TENHIENTHI).FirstOrDefault();
-            DateTime d = (DateTime)s.SP_NGAYDANG;
-            SanPhamModel SP = new SanPhamModel()
+            if(s.SV_MSSV == mssv)
             {
-                masp = s.SP_MSSP,
-                tensp = s.SP_TENSP,
-                msnguoidang = mssv,
-                danhgiasp = LayDanhGiaSanPham(mssv),
-                giagocsp = (double)s.SP_GIA,
-                dongiasp = TinhDonGiaSanPham(id),
-                nguoidangsp = nguoidang,
-                ngaydangsp = d.ToString("dd/MM/yyyy"),
-                thoigiansp = (int)s.SP_THOIGIANSUDUNG,
-                soluongsp = (int)s.SP_CONLAI,
-                motasp = s.SP_MOTA,
-                nsx = s.SP_HANGSX,
-                loai = db.LOAISANPHAMs.Where(a => a.LOAI_MALOAI == s.LOAI_MALOAI).Select(a => a.LOAI_TENLOAI).First(), 
-            };
-
-            List<string> tempstrlist = new List<string>();
-            foreach(var i in db.HINHANHs)
-            {
-                if(i.SP_MSSP == id)
-                {
-                    string name = i.HA_LINK;
-                    tempstrlist.Add(name);
-                }
+                return RedirectToAction("Index","SanPham");
             }
-            SP.anhsp = tempstrlist;
-
-            List<NhanXetModel> B = new List<NhanXetModel>();
-            foreach(var i in db.NHANXETNGUOIBANs.OrderByDescending(a => a.NX_NGAY))
+            else
             {
-                if(i.SV_MSSV_B == s.SV_MSSV)
+                string nguoidang = db.SINHVIENs.Where(a => a.SV_MSSV == s.SV_MSSV).Select(a => a.SV_TENHIENTHI).FirstOrDefault();
+                DateTime d = (DateTime)s.SP_NGAYDANG;
+                SanPhamModel SP = new SanPhamModel()
                 {
-                    NhanXetModel b = new NhanXetModel()
+                    masp = s.SP_MSSP,
+                    tensp = s.SP_TENSP,
+                    msnguoidang = mssv,
+                    danhgiasp = LayDanhGiaSanPham(mssv),
+                    giagocsp = (double)s.SP_GIA,
+                    dongiasp = TinhDonGiaSanPham(id),
+                    nguoidangsp = nguoidang,
+                    ngaydangsp = d.ToString("dd/MM/yyyy"),
+                    thoigiansp = (int)s.SP_THOIGIANSUDUNG,
+                    soluongsp = (int)s.SP_CONLAI,
+                    motasp = s.SP_MOTA,
+                    nsx = s.SP_HANGSX,
+                    loai = db.LOAISANPHAMs.Where(a => a.LOAI_MALOAI == s.LOAI_MALOAI).Select(a => a.LOAI_TENLOAI).First(),
+                };
+
+                List<string> tempstrlist = new List<string>();
+                foreach (var i in db.HINHANHs)
+                {
+                    if (i.SP_MSSP == id)
                     {
-                        mssv_m = i.SV_MSSV_M,
-                        noidung = i.NX_NOIDUNG,
-                        danhgia = (int)i.NX_GIATRI,
-                        img = db.HINHANHs.Where(a => a.SV_MSSV == i.SV_MSSV_M).Select(a => a.HA_LINK).FirstOrDefault(),
-                        ngay = ((DateTime)i.NX_NGAY).ToString("dd/MM/yyyy"),
-                    };
-                    B.Add(b);
+                        string name = i.HA_LINK;
+                        tempstrlist.Add(name);
+                    }
                 }
+                SP.anhsp = tempstrlist;
+
+                List<NhanXetModel> B = new List<NhanXetModel>();
+                foreach (var i in db.NHANXETNGUOIBANs.OrderByDescending(a => a.NX_NGAY))
+                {
+                    if (i.SV_MSSV_B == s.SV_MSSV)
+                    {
+                        NhanXetModel b = new NhanXetModel()
+                        {
+                            mssv_m = i.SV_MSSV_M,
+                            noidung = i.NX_NOIDUNG,
+                            danhgia = (int)i.NX_GIATRI,
+                            img = db.HINHANHs.Where(a => a.SV_MSSV == i.SV_MSSV_M).Select(a => a.HA_LINK).FirstOrDefault(),
+                            ngay = ((DateTime)i.NX_NGAY).ToString("dd/MM/yyyy"),
+                        };
+                        B.Add(b);
+                    }
+                }
+                SP.nhanxetsp = B;
+
+                db.Entry(s).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                s.SP_LUOTXEM += 1;
+                db.Entry(s).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+
+                return View(SP);
             }
-            SP.nhanxetsp = B;
-
-            db.Entry(s).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
-            s.SP_LUOTXEM += 1;
-            db.Entry(s).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            db.SaveChanges();
-
-            return View(SP);
         }
 
         [Authorize]
