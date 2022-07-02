@@ -18,6 +18,8 @@ namespace QL_CDC.Controllers
     {
         #region
         QL_CDCContext db = new QL_CDCContext();
+
+        // Trang chu san pham
         public IActionResult Index()
         {
             List<SanPhamModel> SP = new List<SanPhamModel>();
@@ -69,6 +71,7 @@ namespace QL_CDC.Controllers
             return danhgia;
         }
 
+        // Them san pham moi
         [Authorize(Roles = "sv")]
         public IActionResult ThemSanPham()
         {
@@ -148,6 +151,7 @@ namespace QL_CDC.Controllers
             return report;
         }
         
+        // Xem chi tiet san pham
         [AllowAnonymous]
         public IActionResult ChiTietSanPham(string id)
         {
@@ -216,6 +220,7 @@ namespace QL_CDC.Controllers
             }
         }
 
+        // Binh luan nguoi ban
         [Authorize]
         public IActionResult NhanXetSanPham(string sao, string bl, string svb, string mssp)
         {
@@ -265,6 +270,55 @@ namespace QL_CDC.Controllers
             return PartialView("_NhanXetPartial", model);
         }
 
+        public IActionResult DanhMucSanPham()
+        {
+            List<DanhMucModel> D = new List<DanhMucModel>();
+            foreach(var a in db.LOAIMATHANGs)
+            {
+                DanhMucModel d = new DanhMucModel()
+                {
+                    id = a.MH_MAMH,
+                    ten = a.MH_TENMH,
+                };
+                d.danhmuccon = new List<DanhMucCon>();
+                foreach(var b in db.LOAISANPHAMs.Where(x => x.MH_MAMH == a.MH_MAMH))
+                {
+                    DanhMucCon dm = new DanhMucCon()
+                    {
+                        id = b.LOAI_MALOAI,
+                        ten = b.LOAI_TENLOAI,
+                    };
+                    d.danhmuccon.Add(dm);
+                }
+                D.Add(d);
+            }
+            return Json(D);
+        }
+
+        [AllowAnonymous]
+        public IActionResult TimKiemTheoLoai(string maloai)
+        {
+            int ml; int.TryParse(maloai, out ml);
+            List<SanPhamModel> SP = new List<SanPhamModel>();
+            var mssv = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            foreach (var x in db.SANPHAMs)
+            {
+                if (x.SV_MSSV != mssv && x.LOAI_MALOAI == ml)
+                {
+                    SanPhamModel s = new SanPhamModel();
+                    s.masp = x.SP_MSSP;
+                    s.tensp = x.SP_TENSP;
+                    s.giagocsp = (double)x.SP_GIA;
+                    s.dongiasp = TinhDonGiaSanPham(x.SP_MSSP);
+                    s.thoigiansp = (int)x.SP_THOIGIANSUDUNG;
+                    s.danhgiasp = LayDanhGiaSanPham(x.SV_MSSV);
+                    s.soluongsp = (int)x.SP_CONLAI;
+                    s.anhsp = db.HINHANHs.Where(a => a.SP_MSSP == x.SP_MSSP).Select(a => a.HA_LINK).ToList();
+                    SP.Add(s);
+                }
+            }
+            return View(SP);
+        }
         #endregion 
     }
 }

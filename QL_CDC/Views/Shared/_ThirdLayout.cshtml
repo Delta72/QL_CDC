@@ -66,7 +66,8 @@
                     <i class="fa fa-angle-down text-dark"></i>
                 </a>
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
-                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
+                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px" id="DMSP">
+                        <!--
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link danhmuc" data-toggle="dropdown">Đồ dùng cá nhân <i class="fa fa-angle-down float-right mt-1"></i></a>
                             <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
@@ -78,35 +79,8 @@
                                 <a href="" class="dropdown-item">Ô, dù</a>
                             </div>
                         </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link danhmuc" data-toggle="dropdown">Đồ dùng học tập <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Bàn phím</a>
-                                <a href="" class="dropdown-item">Bút trình chiếu</a>
-                                <a href="" class="dropdown-item">Chuột máy tính</a>
-                                <a href="" class="dropdown-item">Đèn bàn</a>
-                                <a href="" class="dropdown-item">Laptop</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link danhmuc" data-toggle="dropdown">Đồ dùng nội thất <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Bàn, ghế</a>
-                                <a href="" class="dropdown-item">Giá đỡ, kệ, tủ</a>
-                                <a href="" class="dropdown-item">Máy giặt</a>
-                                <a href="" class="dropdown-item">Quạt điện</a>
-                                <a href="" class="dropdown-item">Tô, chén</a>
-                                <a href="" class="dropdown-item">Xoong, nồi</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link danhmuc" data-toggle="dropdown">Phương tiện đi lại <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Xe đạp</a>
-                                <a href="" class="dropdown-item">Xe máy</a>
-                            </div>
-                        </div>
-                        <a href="" class="nav-item nav-link danhmuc">Khác</a>
+                        -->
+
                     </div>
                 </nav>
             </div>
@@ -161,3 +135,47 @@
 </body>
 
 </html>
+
+<script>
+    // Tim kiem theo loai
+    function TimKiemTheoLoai(id) {
+        console.log(id)
+    }
+
+    // Hien danh muc
+    function HienDanhMuc(data) {
+        var str = "";
+        for (var i in data) {
+            if (data[i].danhmuccon.length > 1) {
+                str += '<div class="nav-item dropdown">'
+                str += '<a href="#" class="nav-link danhmuc" data-toggle="dropdown">' + data[i].ten + ' <i class="fa fa-angle-down float-right mt-1"></i></a>'
+                str += '<div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">'
+                for (var x in data[i].danhmuccon) {
+                    str += '<a class="dropdown-item" href="/SanPham/TimKiemTheoLoai?maloai=' + data[i].danhmuccon[x].id + '">' + data[i].danhmuccon[x].ten + '</a>'
+                }
+                str += '</div>'
+                str += '</div>'
+            }
+            else {
+                str += '<a class="dropdown-item" href="/SanPham/TimKiemTheoLoai?maloai=' + data[i].danhmuccon[0].id + '">' + data[i].danhmuccon[0].ten + '</a>'
+            }
+        }
+        document.getElementById('DMSP').innerHTML = str;
+    }
+
+    // load danh muc
+    function LoadDanhMuc() {
+        $.ajax({
+            url: '/SanPham/DanhMucSanPham',
+            type: 'get',
+            success: function (data) {
+                HienDanhMuc(data)
+            }
+        })
+    }
+
+    // ready
+    $(document).ready(function () {
+        LoadDanhMuc();
+    })
+</script>

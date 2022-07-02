@@ -8,12 +8,13 @@ namespace QL_CDC.Models
 {
     public class DangNhapModel
     {
-        [Required(ErrorMessage = "Vui lòng nhập tài khoản")]
+        [Required(ErrorMessage = "Bạn chưa nhập MSSV")]
         [MaxLength(8)]
-        public string taikhoan { get; set; }
+        public string MSSV { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
-        [MaxLength(24)]
-        public string matkhau { get; set; }
+        [Required(ErrorMessage = "Bạn chưa nhập mật khẩu")]
+        [MaxLength(24, ErrorMessage = "*Mật khẩu có độ dài từ 5 đến 24 ký tự")]
+        [MinLength(5, ErrorMessage = "*Mật khẩu có độ dài từ 5 đến 24 ký tự")]
+        public string MatKhau { get; set; }
     }
 }

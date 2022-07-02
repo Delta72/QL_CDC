@@ -315,6 +315,7 @@ namespace QL_CDC.Controllers
         }
 
         // Huy hoa don
+        [HttpPost]
         public IActionResult HuyHoaDon(string mshd)
         {
             HOADONMUA H = db.HOADONMUAs.Where(a => a.HD_MSHD == mshd).FirstOrDefault();

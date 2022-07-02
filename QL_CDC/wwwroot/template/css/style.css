@@ -10384,7 +10384,7 @@ a.text-dark:hover, a.text-dark:focus {
         border-radius: 7px;
         margin-left: 10vw;
         margin-top: 3vh;
-        width: 20vw;
+        width: 30vw;
     }
 
         .dndktable input:hover {
@@ -10395,8 +10395,25 @@ a.text-dark:hover, a.text-dark:focus {
             border: 0.5px solid black;
         }
 
+    .dndktable textarea {
+        border: 0.5px solid #6c757d;
+        border-radius: 7px;
+        margin-left: 10vw;
+        margin-top: 3vh;
+        width: 30vw;
+    }
+
+        .dndktable textarea:hover {
+            border: 0.5px solid black;
+        }
+
+        .dndktable textarea:focus {
+            border: 0.5px solid black;
+        }
+
     .dndktable label {
         margin-top: 3vh;
+        font-weight: bold;
     }
 
 .btndndk {
