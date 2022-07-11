@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace QL_CDC.Controllers
@@ -22,47 +24,78 @@ namespace QL_CDC.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
         public IActionResult DangNhap()
         {
             return View();
         }
 
-        [AllowAnonymous]
-        public IActionResult TaskDangNhap(string tk, string mk)
+        [HttpPost]
+        [ActionName("DangNhap")]
+        public IActionResult TaskDangNhap(DangNhapModel model)
         {
-            var dn = false;
-            SINHVIEN sv = db.SINHVIENs.Where(a => a.SV_MSSV == tk).FirstOrDefault();
-            if(sv == null)
+            if (!ModelState.IsValid)
             {
-
+                return View(model);
             }
             else
             {
-                dn = true;
-                string role = "";
-                if(sv.SV_ADMIN == true)
+                SINHVIEN sv = db.SINHVIENs.Where(x => x.SV_MSSV == model.MSSV).FirstOrDefault();
+                if (sv == null)
                 {
-                    role = "ad";
+                    ModelState.AddModelError(nameof(DangNhapModel.MSSV), "*null");
+                    return View(model);
                 }
                 else
                 {
-                    role = "sv";
-                }
-                var claims = new[] { 
-                    new Claim(ClaimTypes.Name, sv.SV_TENHIENTHI), 
+                    var mk = MaHoaMatKhau(model.MatKhau);
+                    if (mk != sv.SV_MATKHAU)
+                    {
+                        ModelState.AddModelError(nameof(DangNhapModel.MSSV), "*mật khẩu");
+                        return View(model);
+                    }
+                    else
+                    {
+                        string role = "";
+                        if (sv.SV_ADMIN == true)
+                        {
+                            role = "ad";
+                        }
+                        else
+                        {
+                            role = "sv";
+                        }
+                        var claims = new[] {
+                    new Claim(ClaimTypes.Name, sv.SV_TENHIENTHI),
                     new Claim(ClaimTypes.NameIdentifier, sv.SV_MSSV),
                     new Claim(ClaimTypes.Role, role)};
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(identity));
+                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        HttpContext.SignInAsync(
+                            CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(identity));
+
+                        db.Entry(sv).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                        sv.SV_LANHDCUOI = DateTime.Today;
+                        db.Entry(sv).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                        db.SaveChanges();
+
+                        return RedirectToAction("Index", "SanPham");
+                    }
+                }
             }
-            return Json(dn);
         }
 
         public string MaHoaMatKhau(string mk)
         {
             string mkmh = "";
+            using var sha256 = SHA256.Create();
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(mk));
+            var sb = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                sb.Append(bytes[i].ToString("x2"));
+            }
+            mkmh = sb.ToString();
             return mkmh;
         }
 
@@ -82,6 +115,90 @@ namespace QL_CDC.Controllers
         public IActionResult Test()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult DangKy()
+        {
+            return View();
+        }
+
+        public IActionResult KiemTraTonTaiMSSV(string mssv)
+        {
+            SINHVIEN S = db.SINHVIENs.Where(a => a.SV_MSSV == mssv).FirstOrDefault();
+            if(S == null)
+            {
+                return Json(false);
+            }
+            else
+            {
+                return Json(true);
+            }
+        }
+
+        [HttpPost]
+        [ActionName("DangKy")]
+        [ValidateAntiForgeryToken]
+        public IActionResult TaskDangKy(SinhVienModel model)
+        {
+            SINHVIEN sv = db.SINHVIENs.Where(a => a.SV_MSSV == model.MSSV).FirstOrDefault();
+            if(sv != null)
+            {
+                ModelState.AddModelError(nameof(SinhVienModel.MSSV), "*MSSV này đã được đăng ký");
+                return View(model);
+            }
+            else
+            {
+                sv = new SINHVIEN()
+                {
+                    SV_MSSV = model.MSSV,
+                    SV_MATKHAU = MaHoaMatKhau(model.MatKhau),
+                    SV_HOTEN = model.HoTen,
+                    SV_TENHIENTHI = model.HoTen,
+                    SV_NGAYTAOTK = DateTime.Today,
+                    SV_LANHDCUOI = DateTime.Today,
+                    SV_DIACHIGIAOHANG = model.DiaChi,
+                    SV_SDT = model.SDT,
+                    SV_EMAIL = model.Email,
+                    SV_TINHTRANG = true,
+                    SV_ADMIN = false,
+                };
+                db.SINHVIENs.Add(sv);
+                db.SaveChanges();
+                return RedirectToAction("DangNhap");
+            }
+        }
+
+        [Authorize]
+        public IActionResult ThongTinTaiKhoan()
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            SINHVIEN SV = db.SINHVIENs.Where(a => a.SV_MSSV == id).FirstOrDefault();
+            SinhVienModel model = new SinhVienModel()
+            {
+                MSSV = SV.SV_MSSV,
+                HoTen = SV.SV_HOTEN,
+                TenHienThi = SV.SV_TENHIENTHI,
+                DiaChi = SV.SV_DIACHIGIAOHANG,
+                SDT = SV.SV_SDT,
+                Email = SV.SV_EMAIL
+            };
+            return View(model);
+        }
+
+        public IActionResult SuaThongTin(string tenhienthi, string email, string sdt, string hoten, string dc)
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            SINHVIEN sv = db.SINHVIENs.Where(a => a.SV_MSSV == id).FirstOrDefault();
+            db.Entry(sv).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            sv.SV_TENHIENTHI = tenhienthi;
+            sv.SV_EMAIL = email;
+            sv.SV_SDT = sdt;
+            sv.SV_HOTEN = hoten;
+            sv.SV_DIACHIGIAOHANG = dc;
+            db.Entry(sv).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.SaveChanges();
+            return Json("");
         }
     }       
 }

@@ -281,6 +281,7 @@ namespace QL_CDC.Controllers
             return View(T);
         }
 
+        // Dem so luong hoa don chua xac nhan
         public IActionResult DemHoaDonMoi()
         {
             int sl = 0;
@@ -295,6 +296,34 @@ namespace QL_CDC.Controllers
                 }
             }
             return Json(sl);
+        }
+
+        // Xac nhan hoa don
+        [HttpPost]
+        public IActionResult XacNhanHoaDon(string mshd)
+        {
+            HOADONMUA H = db.HOADONMUAs.Where(a => a.HD_MSHD == mshd).FirstOrDefault();
+            int stt = db.TINHTRANGHOADONs.Max(a => a.TT_MSTT);
+            db.Entry(H).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            if(H.TT_MSTT < stt)
+            {
+                H.TT_MSTT += 1;
+            }
+            db.Entry(H).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.SaveChanges();
+            return Json("Xacnhan");
+        }
+
+        // Huy hoa don
+        [HttpPost]
+        public IActionResult HuyHoaDon(string mshd)
+        {
+            HOADONMUA H = db.HOADONMUAs.Where(a => a.HD_MSHD == mshd).FirstOrDefault();
+            db.Entry(H).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            H.TT_MSTT = 0;
+            db.Entry(H).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.SaveChanges();
+            return Json("Huy");
         }
     }
 }
