@@ -42,8 +42,8 @@
             <div class="col-lg-6 col-6 text-left">
                 <form action="">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" id="timkiem">
-                        <div class="input-group-append btnSearch" onclick="TimKiemTheoTen()">
+                        <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                        <div class="input-group-append btnSearch">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -68,18 +68,18 @@
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px" id="DMSP">
                         <!--
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link danhmuc" data-toggle="dropdown">Đồ dùng cá nhân <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Chăn, ra, gối, nệm</a>
-                                <a href="" class="dropdown-item">Giày dép</a>
-                                <a href="" class="dropdown-item">Nón bảo hiểm</a>
-                                <a href="" class="dropdown-item">Nón vải</a>
-                                <a href="" class="dropdown-item">Quần áo</a>
-                                <a href="" class="dropdown-item">Ô, dù</a>
-                            </div>
-                        </div>
-                        -->
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link danhmuc" data-toggle="dropdown">Đồ dùng cá nhân <i class="fa fa-angle-down float-right mt-1"></i></a>
+                    <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
+                        <a href="" class="dropdown-item">Chăn, ra, gối, nệm</a>
+                        <a href="" class="dropdown-item">Giày dép</a>
+                        <a href="" class="dropdown-item">Nón bảo hiểm</a>
+                        <a href="" class="dropdown-item">Nón vải</a>
+                        <a href="" class="dropdown-item">Quần áo</a>
+                        <a href="" class="dropdown-item">Ô, dù</a>
+                    </div>
+                </div>
+                -->
 
                     </div>
                 </nav>
@@ -97,8 +97,31 @@
                     </div>
                 </nav>
             </div>
+
+            <div class="bar-timkiem" style="display: none">
+                <select class="form-control" id="locgia">
+                    <option value="all"> -- Giá -- </option>
+                    <option value="thapcao"> Từ thấp đến cao </option>
+                    <option value="caothap"> Từ cao đến thấp </option>
+                </select>
+
+                <select class="form-control" id="locdanhgia">
+                    <option value="all"> -- Đánh giá -- </option>
+                    <option value="thapcao"> Từ thấp đến cao </option>
+                    <option value="caothap"> Từ cao đến thấp </option>
+                </select>
+
+                <select class="form-control" id="locthoigian">
+                    <option value="all"> -- Thời gian sử dụng -- </option>
+                    <option value="thapcao"> Mới nhất </option>
+                    <option value="caothap"> Cũ nhất </option>
+                </select>
+
+                <button class="btn btn-primary" onclick="">Lọc</button>
+            </div>
         </div>
     </div>
+    
     <!-- Navbar End -->
 
     @RenderBody();
@@ -138,11 +161,29 @@
 
 <script>
 
+    // Loc
+    function Loc() {
+        var lg = document.getElementById('locgia').value;
+        var ldg = document.getElementById('locdanhgia').value;
+        var ltg = document.getElementById('locthoigian').value;
+
+        console.log(lg + ', ' + ldg + ', ' + ltg)
+        $.ajax({
+            url: '/SanPham/LocSanPham',
+            type: 'post',
+            data: {
+                gia: lg,
+                danhgia: ldg,
+                thoigian: ltg,
+            }
+        })
+    }
+
     // Tim kiem theo ten
     function TimKiemTheoTen() {
         var str = document.getElementById('timkiem').value;
         if (str == null || str == "" || !/\S/.test(str)) {
-            
+
         }
         else {
             window.location.href = '/SanPham/TimKiem?str=' + str;

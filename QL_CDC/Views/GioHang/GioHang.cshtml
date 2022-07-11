@@ -136,8 +136,6 @@ else
             gia += parseFloat(document.getElementById('tonggia' + i).innerHTML.replaceAll(',', ''))
         }
         document.getElementById('tongthanhtoan').innerHTML = gia.format();
-        var ship = parseFloat(document.getElementById('tienship').innerHTML.replaceAll(',', ''))
-        document.getElementById('tongthanhtoan2').innerHTML = (gia + ship).format();
     }
     function ChiNhapSo(e) {
         e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');

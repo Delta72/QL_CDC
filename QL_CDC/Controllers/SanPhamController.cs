@@ -319,6 +319,41 @@ namespace QL_CDC.Controllers
             }
             return View(SP);
         }
+
+        public IActionResult TimKiem(string str)
+        {
+            str = str.ToLower();
+            List<SanPhamModel> SP = new List<SanPhamModel>();
+            var mssv = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            foreach (var x in db.SANPHAMs)
+            {
+                if (x.SV_MSSV != mssv)
+                {
+                    var loai = db.LOAISANPHAMs.Where(a => a.LOAI_MALOAI == x.LOAI_MALOAI).Select(a => a.LOAI_TENLOAI).FirstOrDefault();
+                    var mamh = db.LOAISANPHAMs.Where(a => a.LOAI_MALOAI == x.LOAI_MALOAI).Select(a => a.MH_MAMH).FirstOrDefault();
+                    var mh = db.LOAIMATHANGs.Where(a => a.MH_MAMH == mamh).Select(a => a.MH_TENMH).FirstOrDefault();
+                    if(x.SP_TENSP.ToLower().Contains(str) ||  
+                        x.SP_MOTA.ToLower().Contains(str) ||
+                        x.SP_HANGSX.ToLower().Contains(str) ||
+                        loai.ToLower().Contains(str) ||
+                        mh.ToLower().Contains(str)
+                        )
+                    {
+                        SanPhamModel s = new SanPhamModel();
+                        s.masp = x.SP_MSSP;
+                        s.tensp = x.SP_TENSP;
+                        s.giagocsp = (double)x.SP_GIA;
+                        s.dongiasp = TinhDonGiaSanPham(x.SP_MSSP);
+                        s.thoigiansp = (int)x.SP_THOIGIANSUDUNG;
+                        s.danhgiasp = LayDanhGiaSanPham(x.SV_MSSV);
+                        s.soluongsp = (int)x.SP_CONLAI;
+                        s.anhsp = db.HINHANHs.Where(a => a.SP_MSSP == x.SP_MSSP).Select(a => a.HA_LINK).ToList();
+                        SP.Add(s);
+                    }
+                }
+            }
+            return View(SP);
+        }
         #endregion 
     }
 }

@@ -11116,3 +11116,54 @@ a.text-dark:hover, a.text-dark:focus {
         border: 1px solid #c70039;
         cursor: pointer;
     }
+
+.bar-timkiem{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    text-align: center;
+    line-height: 50px;
+    vertical-align: middle;
+}
+
+    .bar-timkiem select {
+        width: 20%;
+        margin-left: 50px;
+        margin-right: 50px;
+        text-align: center;
+        margin: 10px auto;
+        border: 1px solid #0f893b;
+        color: #0f893b;
+    }
+
+        .bar-timkiem select:focus {
+            border: 1px solid #0f893b;
+            color: #0f893b;
+        }
+
+    .bar-timkiem button {
+        margin: 5px auto;
+    }
+
+.thongtincanhan label{
+    font-weight: 700;
+    color: #0f983b;
+}
+
+.thongtincanhan input {
+    font-weight: 700;
+    border: 0.5px solid #6c757d;
+}
+
+.thongtincanhan input:focus{
+    border: 0.5px solid #0f983b;
+}
+
+.thongtincanhan textarea {
+    font-weight: 700;
+    border: 0.5px solid #6c757d;
+}
+
+    .thongtincanhan textarea:focus {
+        border: 0.5px solid #0f983b;
+    }

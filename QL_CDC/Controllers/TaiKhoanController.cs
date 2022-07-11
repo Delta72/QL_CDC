@@ -168,5 +168,37 @@ namespace QL_CDC.Controllers
                 return RedirectToAction("DangNhap");
             }
         }
+
+        [Authorize]
+        public IActionResult ThongTinTaiKhoan()
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            SINHVIEN SV = db.SINHVIENs.Where(a => a.SV_MSSV == id).FirstOrDefault();
+            SinhVienModel model = new SinhVienModel()
+            {
+                MSSV = SV.SV_MSSV,
+                HoTen = SV.SV_HOTEN,
+                TenHienThi = SV.SV_TENHIENTHI,
+                DiaChi = SV.SV_DIACHIGIAOHANG,
+                SDT = SV.SV_SDT,
+                Email = SV.SV_EMAIL
+            };
+            return View(model);
+        }
+
+        public IActionResult SuaThongTin(string tenhienthi, string email, string sdt, string hoten, string dc)
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            SINHVIEN sv = db.SINHVIENs.Where(a => a.SV_MSSV == id).FirstOrDefault();
+            db.Entry(sv).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            sv.SV_TENHIENTHI = tenhienthi;
+            sv.SV_EMAIL = email;
+            sv.SV_SDT = sdt;
+            sv.SV_HOTEN = hoten;
+            sv.SV_DIACHIGIAOHANG = dc;
+            db.Entry(sv).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.SaveChanges();
+            return Json("");
+        }
     }       
 }
