@@ -142,7 +142,7 @@
         }
     }
 
-    // them 1 sp 
+    // them 1 sp
     function Tang1(x) {
         var sl = $('#soluongsp').val();
         if (parseInt(sl) + 1 > x) {
@@ -264,6 +264,7 @@
 
     $(document).ready(function () {
         tinhsaotong(@sosao);
+        console.log('@Model.msnguoidang')
         if ('@Model.msnguoidang' != GetNameID()) {
             document.getElementById('mochat').innerHTML = '<button class="btn btn-primary px-3" onclick="MoChatMoi(\'@Model.msnguoidang\',\'@Model.nguoidangsp\')"><i class="fa fa-comments mr-1"></i> Chat </button>';
         }

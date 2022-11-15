@@ -156,8 +156,8 @@ namespace QL_CDC.Controllers
         public IActionResult ChiTietSanPham(string id)
         {
             SANPHAM s = db.SANPHAMs.Where(a => a.SP_MSSP == id).FirstOrDefault();
-            string mssv = db.SINHVIENs.Where(a => a.SV_MSSV == s.SV_MSSV).Select(a => a.SV_MSSV).FirstOrDefault();
-            if(s.SV_MSSV == mssv)
+            string mssv = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (s.SV_MSSV == mssv)
             {
                 return RedirectToAction("Index","SanPham");
             }
@@ -169,7 +169,7 @@ namespace QL_CDC.Controllers
                 {
                     masp = s.SP_MSSP,
                     tensp = s.SP_TENSP,
-                    msnguoidang = mssv,
+                    msnguoidang = s.SV_MSSV,
                     danhgiasp = LayDanhGiaSanPham(mssv),
                     giagocsp = (double)s.SP_GIA,
                     dongiasp = TinhDonGiaSanPham(id),
